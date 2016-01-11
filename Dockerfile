@@ -40,8 +40,8 @@ RUN wget http://packages.kitware.com/download/item/6175/qt-everywhere-opensource
   make install && \
   find . -name '*.o' -delete
 
-# Slicer master 2015-11-06
-ENV SLICER_VERSION 05f8365ee3592e8bc39e99bbcac3445a8c0096a8
+# Slicer master 2016-01-09
+ENV SLICER_VERSION 3eb19c2c7dd9d0432389176642f72646288dbdc0
 RUN git clone https://github.com/Slicer/Slicer.git && \
   cd Slicer && \
   git checkout ${SLICER_VERSION}
