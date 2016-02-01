@@ -1,4 +1,4 @@
-FROM thewtex/centos-build:latest
+FROM thewtex/centos-build:v1.0.0
 MAINTAINER 3D Slicer Community <slicer-devel@bwh.harvard.edu>
 
 RUN yum update -y && \
