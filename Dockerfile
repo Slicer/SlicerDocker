@@ -40,11 +40,12 @@ RUN wget http://packages.kitware.com/download/item/6175/qt-everywhere-opensource
   make install && \
   find . -name '*.o' -delete
 
-# Slicer master 2016-01-09
-ENV SLICER_VERSION 3eb19c2c7dd9d0432389176642f72646288dbdc0
+# Slicer master 2016-02-01
+ENV SLICER_VERSION 2fa635cc40cac0935826cac2213318229e7e879b
 RUN git clone https://github.com/Slicer/Slicer.git && \
   cd Slicer && \
   git checkout ${SLICER_VERSION}
+VOLUME /usr/src/Slicer
 RUN  mkdir /usr/src/Slicer-build
 WORKDIR /usr/src/Slicer-build
 RUN cmake \
@@ -54,3 +55,4 @@ RUN cmake \
       /usr/src/Slicer && \
   make -j$(grep -c processor /proc/cpuinfo)
 RUN cmake --build /usr/src/Slicer-build/Slicer-build --config Release --target package
+VOLUME /usr/src/Slicer-build
