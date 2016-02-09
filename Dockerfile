@@ -39,6 +39,7 @@ RUN wget http://packages.kitware.com/download/item/6175/qt-everywhere-opensource
   make -j$(grep -c processor /proc/cpuinfo) && \
   make install && \
   find . -name '*.o' -delete
+# Todo: delete: src/3rdparty src/**.cpp doc/
 
 # Slicer master 2016-02-01
 ENV SLICER_VERSION 2fa635cc40cac0935826cac2213318229e7e879b
@@ -49,10 +50,24 @@ VOLUME /usr/src/Slicer
 RUN  mkdir /usr/src/Slicer-build
 WORKDIR /usr/src/Slicer-build
 RUN cmake \
+    -G Ninja \
     "-DCMAKE_CXX_FLAGS:STRING=-static-libstdc++" \
     -DCMAKE_BUILD_TYPE:STRING=Release \
     -DQT_QMAKE_EXECUTABLE:FILEPATH=/usr/src/qt-everywhere-opensource-release-build-4.8.6/bin/qmake \
-      /usr/src/Slicer && \
-  make -j$(grep -c processor /proc/cpuinfo)
-RUN cmake --build /usr/src/Slicer-build/Slicer-build --config Release --target package
+      /usr/src/Slicer
+# Split the superbuild into building Slicer's dependencies and building Slicer
+# itself.
+RUN ninja -t commands Slicer | csplit - '/Slicer-mkdir/' && \
+  echo "#!/bin/sh" > BuildSlicerDependencies.sh && \
+    cat xx00 >> BuildSlicerDependencies.sh && \
+    chmod +x BuildSlicerDependencies.sh && \
+    rm xx00 && \
+  echo "#!/bin/sh" > BuildSlicer.sh && \
+    head -n 5 xx01 >> BuildSlicer.sh && \
+    echo "cmake --build /usr/src/Slicer-build/Slicer-build --config Release --target package" >> BuildSlicer.sh && \
+    chmod +x BuildSlicer.sh && \
+    rm xx01
+RUN ./BuildSlicerDependencies.sh && \
+  find . -name '*.o' -delete
 VOLUME /usr/src/Slicer-build
+CMD ./BuildSlicer.sh
