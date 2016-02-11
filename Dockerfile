@@ -38,8 +38,10 @@ RUN wget http://packages.kitware.com/download/item/6175/qt-everywhere-opensource
    -openssl -I /usr/src/openssl-1.0.1e/include -L /usr/src/openssl-1.0.1e && \
   make -j$(grep -c processor /proc/cpuinfo) && \
   make install && \
-  find . -name '*.o' -delete
-# Todo: delete: src/3rdparty src/**.cpp doc/
+  find . -name '*.o' -delete && \
+  find . -name '*.cpp' -delete && \
+  rm -rf doc && \
+  rm -rf src/3rdparty
 
 # Slicer master 2016-02-01
 ENV SLICER_VERSION 2fa635cc40cac0935826cac2213318229e7e879b
@@ -67,7 +69,10 @@ RUN ninja -t commands Slicer | csplit - '/Slicer-mkdir/' && \
     echo "cmake --build /usr/src/Slicer-build/Slicer-build --config Release --target package" >> BuildSlicer.sh && \
     chmod +x BuildSlicer.sh && \
     rm xx01
+# todo: Add Slicer_BUILD_ITKPython
 RUN ./BuildSlicerDependencies.sh && \
   find . -name '*.o' -delete
+# remove todo for space: SimpleITK-install SimpleITK-build EMSegment/Tasks
+# VTKv6/.git ITKv4/.git
 VOLUME /usr/src/Slicer-build
 CMD ./BuildSlicer.sh
