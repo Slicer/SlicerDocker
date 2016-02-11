@@ -55,6 +55,7 @@ RUN cmake \
     -G Ninja \
     "-DCMAKE_CXX_FLAGS:STRING=-static-libstdc++" \
     -DCMAKE_BUILD_TYPE:STRING=Release \
+    -DSlicer_BUILD_ITKPython:BOOL=ON \
     -DQT_QMAKE_EXECUTABLE:FILEPATH=/usr/src/qt-everywhere-opensource-release-build-4.8.6/bin/qmake \
       /usr/src/Slicer
 # Split the superbuild into building Slicer's dependencies and building Slicer
@@ -69,7 +70,6 @@ RUN ninja -t commands Slicer | csplit - '/Slicer-mkdir/' && \
     echo "cmake --build /usr/src/Slicer-build/Slicer-build --config Release --target package" >> BuildSlicer.sh && \
     chmod +x BuildSlicer.sh && \
     rm xx01
-# todo: Add Slicer_BUILD_ITKPython
 RUN ./BuildSlicerDependencies.sh && \
   find . -name '*.o' -delete
 # remove todo for space: SimpleITK-install SimpleITK-build EMSegment/Tasks
