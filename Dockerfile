@@ -74,10 +74,11 @@ RUN ./BuildSlicerDependencies.sh && \
   find . -name '*.o' -delete && \
   rm -rf SimpleITK-install SimpleITK-build && \
   rm -rf VTKv6/.git ITKv4/.git && \
-  find ITKv4-build/Wrapping -name '*.cpp' -o -name '*.xml' -delete && \
+  find ITKv4-build/Wrapping -name '*.cpp' -delete -o -name '*.xml' -delete && \
+  rm -rf ITKv4-build/Wrapping/Generators/castxml* && \
   rm *.tgz && \
-  find VTKv6 -name '*.cxx' -o -name '*.cpp' -delete && \
-  find ITKv4 -name '*.cxx' -o -name '*.cpp' -delete && \
+  find VTKv6 -name '*.cxx' -delete -o -name '*.cpp' -delete && \
+  find ITKv4 -name '*.cxx' -delete -o -name '*.cpp' -delete && \
   find DCMTK -name '*.cc' -delete && \
   rm -rf CTK-build/PythonQt/generated*
 VOLUME /usr/src/Slicer-build
