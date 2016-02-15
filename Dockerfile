@@ -46,8 +46,8 @@ RUN wget http://packages.kitware.com/download/item/6175/qt-everywhere-opensource
 VOLUME /usr/src/qt-everywhere-opensource-release-build-4.8.6
 VOLUME /usr/src/qt-everywhere-opensource-src-build-4.8.6
 
-# Slicer master 2016-02-01
-ENV SLICER_VERSION 2fa635cc40cac0935826cac2213318229e7e879b
+# Slicer master 2016-02-14
+ENV SLICER_VERSION a91a98e2b1d310c84df11387bdeca23e647d0564
 RUN git clone https://github.com/Slicer/Slicer.git && \
   cd Slicer && \
   git checkout ${SLICER_VERSION}
