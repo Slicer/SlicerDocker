@@ -19,6 +19,7 @@ WORKDIR /usr/src
 RUN wget --no-check-certificate https://gist.githubusercontent.com/jcfr/9513568/raw/21f4e4cabca5ad03435ecc17ab546dab5e2c1a2f/get-and-build-openssl-for-slicer.sh && \
   chmod u+x get-and-build-openssl-for-slicer.sh && \
   ./get-and-build-openssl-for-slicer.sh
+VOLUME /usr/src/openssl-1.0.1e
 
 ## This will configure and build Qt in RELEASE against the zlib and openssl previously built
 RUN wget http://packages.kitware.com/download/item/6175/qt-everywhere-opensource-src-4.8.6.tar.gz && \
@@ -42,6 +43,8 @@ RUN wget http://packages.kitware.com/download/item/6175/qt-everywhere-opensource
   find . -name '*.cpp' -delete && \
   rm -rf doc && \
   rm -rf src/3rdparty
+VOLUME /usr/src/qt-everywhere-opensource-release-build-4.8.6
+VOLUME /usr/src/qt-everywhere-opensource-src-build-4.8.6
 
 # Slicer master 2016-02-01
 ENV SLICER_VERSION 2fa635cc40cac0935826cac2213318229e7e879b
