@@ -3,6 +3,7 @@ MAINTAINER 3D Slicer Community <slicer-devel@bwh.harvard.edu>
 
 RUN yum update -y && \
   yum install -y \
+    fontconfig-devel \
     libX11-devel \
     libXt-devel \
     libXext-devel \
