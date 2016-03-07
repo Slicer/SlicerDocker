@@ -4,12 +4,26 @@ Docker images for 3D Slicer
 Images
 ------
 
+.. |slicer-build-base-images| image:: https://badge.imagelayers.io/slicer/slicer-build-base:latest.svg
+  :target: https://imagelayers.io/?images=slicer/slicer-build-base:latest
+
+slicer/slicer-build-base
+  |slicer-build-base-images| The base image for *slicer/slicer-builds-deps*
+  and *slicer/slicer-build*.
+
 .. |slicer-build-deps-images| image:: https://badge.imagelayers.io/slicer/slicer-build-deps:latest.svg
   :target: https://imagelayers.io/?images=slicer/slicer-build-deps:latest
 
 slicer/slicer-build-deps
   |slicer-build-deps-images| An image containing all the dependencies to
   build Slicer itself: ITK, VTK, CTK, Qt, etc.
+
+.. |slicer-build-deps-images| image:: https://badge.imagelayers.io/slicer/slicer-build-deps:latest.svg
+  :target: https://imagelayers.io/?images=slicer/slicer-build-deps:latest
+
+slicer/slicer-build
+  |slicer-build-images| An image containing a Slicer build tree along with
+  all the dependencies to build Slicer.
 
 Usage
 -----
