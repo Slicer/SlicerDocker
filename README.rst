@@ -28,7 +28,7 @@ slicer/slicer-build
 Usage
 -----
 
-To build and package Slicer against pre-built dependencies::
+To build and package a local Slicer source tree at `~/src/Slicer` against pre-built dependencies::
 
   docker run --name slicer slicer/slicer-build-deps
   # Here /usr/src/Slicer-build/Slicer-build/Slicer-4.5.0-2016-02-23-linux-amd64.tar.gz
