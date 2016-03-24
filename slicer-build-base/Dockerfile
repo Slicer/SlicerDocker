@@ -47,8 +47,8 @@ RUN wget http://download.qt.io/official_releases/qt/4.8/4.8.7/qt-everywhere-open
 VOLUME /usr/src/qt-everywhere-opensource-release-build-4.8.7
 VOLUME /usr/src/qt-everywhere-opensource-src-build-4.8.7
 
-# Slicer master 2016-02-25
-ENV SLICER_VERSION 68786fd2574926c7e79915e092ccc8c03abb450c
+# Slicer master 2016-03-24
+ENV SLICER_VERSION 26047b4ebe4f16ed4523ee4ed1d2b6e17aa6f345
 RUN git clone https://github.com/Slicer/Slicer.git && \
   cd Slicer && \
   git checkout ${SLICER_VERSION}
