@@ -47,9 +47,10 @@ VOLUME /usr/src/qt-everywhere-opensource-release-build-4.8.7
 
 # Slicer master 2016-03-24
 ENV SLICER_VERSION 26047b4ebe4f16ed4523ee4ed1d2b6e17aa6f345
-RUN git clone https://github.com/Slicer/Slicer.git && \
+RUN git clone --single-branch https://github.com/Slicer/Slicer.git && \
   cd Slicer && \
-  git checkout ${SLICER_VERSION}
+  git checkout ${SLICER_VERSION} && \
+  rm -rf .git
 VOLUME /usr/src/Slicer
 RUN  mkdir /usr/src/Slicer-build
 WORKDIR /usr/src/Slicer-build
