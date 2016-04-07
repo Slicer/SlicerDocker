@@ -41,12 +41,9 @@ RUN wget http://download.qt.io/official_releases/qt/4.8/4.8.7/qt-everywhere-open
    -openssl -I /usr/src/openssl-1.0.1e/include -L /usr/src/openssl-1.0.1e && \
   make -j$(grep -c processor /proc/cpuinfo) && \
   make install && \
-  find . -name '*.o' -delete && \
-  find . -name '*.cpp' -delete && \
-  rm -rf doc && \
-  rm -rf src/3rdparty
+  cd .. &&\
+  rm -rf qt-everywhere-opensource-src-build-4.8.7
 VOLUME /usr/src/qt-everywhere-opensource-release-build-4.8.7
-VOLUME /usr/src/qt-everywhere-opensource-src-build-4.8.7
 
 # Slicer master 2016-03-24
 ENV SLICER_VERSION 26047b4ebe4f16ed4523ee4ed1d2b6e17aa6f345
