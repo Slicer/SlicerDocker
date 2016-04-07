@@ -12,7 +12,8 @@ RUN yum update -y && \
     mesa-libOSMesa-devel \
     mesa-libGL-devel \
     mesa-libGLU-devel \
-    ncurses
+    ncurses \
+    vim
 
 WORKDIR /usr/src
 
