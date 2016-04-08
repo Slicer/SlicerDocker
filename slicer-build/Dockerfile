@@ -7,6 +7,7 @@ RUN cd /usr/src/Slicer-build && \
 RUN /usr/src/Slicer-build/BuildSlicer.sh && \
   cd /usr/src/Slicer-build/Slicer-build && \
   find . -name '*.o' -delete && \
+  find lib -name '*.a' -delete && \
   rm -rf _CPack_Packages
 VOLUME /usr/src/Slicer-build
 WORKDIR /usr/src/Slicer-build/Slicer-build
