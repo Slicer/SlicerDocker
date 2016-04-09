@@ -80,6 +80,7 @@ RUN ./BuildSlicerDependencies.sh && \
   find ITKv4-build/Wrapping -name '*.cpp' -delete -o -name '*.xml' -delete && \
   rm -rf ITKv4-build/Wrapping/Generators/castxml* && \
   rm *.tgz && \
+  mv python-install .. && rm -rf python* Python* && mv ../python-install . && \
   find VTKv6 -name '*.cxx' -delete -o -name '*.cpp' -delete && \
   find ITKv4 -name '*.cxx' -delete -o -name '*.cpp' -delete && \
   find DCMTK -name '*.cc' -delete && \
