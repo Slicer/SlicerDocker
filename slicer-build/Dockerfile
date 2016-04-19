@@ -10,5 +10,6 @@ RUN /usr/src/Slicer-build/BuildSlicer.sh && \
   find lib -name '*.a' -delete && \
   rm -rf _CPack_Packages
 VOLUME /usr/src/Slicer-build
+VOLUME /usr/src/install-prefix
 WORKDIR /usr/src/Slicer-build/Slicer-build
 CMD bash

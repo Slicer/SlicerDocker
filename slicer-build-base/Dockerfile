@@ -30,9 +30,9 @@ RUN wget http://download.qt.io/official_releases/qt/4.8/4.8.7/qt-everywhere-open
  tar -xzvf qt-everywhere-opensource-src-4.8.7.tar.gz && \
  rm qt-everywhere-opensource-src-4.8.7.tar.gz && \
  mv qt-everywhere-opensource-src-4.8.7 qt-everywhere-opensource-release-src-4.8.7 && \
- mkdir qt-everywhere-opensource-release-build-4.8.7 && \
+ mkdir install-prefix && \
  cd qt-everywhere-opensource-release-src-4.8.7 && \
- LD=${CXX} ./configure -prefix /usr/src/qt-everywhere-opensource-release-build-4.8.7 \
+ LD=${CXX} ./configure -prefix /usr/src/install-prefix \
    -release \
    -opensource -confirm-license \
    -no-qt3support \
@@ -42,8 +42,8 @@ RUN wget http://download.qt.io/official_releases/qt/4.8/4.8.7/qt-everywhere-open
   make -j$(grep -c processor /proc/cpuinfo) && \
   make install && \
   cd .. &&\
-  rm -rf qt-everywhere-opensource-src-build-4.8.7
-VOLUME /usr/src/qt-everywhere-opensource-release-build-4.8.7
+  rm -rf qt-everywhere-opensource-src-build-4.8.7 && \
+  rm -rf /usr/src/install-prefix/doc
 
 # Slicer master 2016-04-11
 ENV SLICER_VERSION e6c57dd107cecea3c05ad6dd3e881f572a8f1801
@@ -56,10 +56,11 @@ RUN  mkdir /usr/src/Slicer-build
 WORKDIR /usr/src/Slicer-build
 RUN cmake \
     -G Ninja \
+    -DCMAKE_INSTALL_PREFIX:PATH=/usr/src/install-prefix \
     -DCMAKE_BUILD_TYPE:STRING=MinSizeRel \
     -DSlicer_BUILD_ITKPython:BOOL=ON \
     -DSlicer_INSTALL_ITKPython:BOOL=ON \
-    -DQT_QMAKE_EXECUTABLE:FILEPATH=/usr/src/qt-everywhere-opensource-release-build-4.8.7/bin/qmake \
+    -DQT_QMAKE_EXECUTABLE:FILEPATH=/usr/src/install-prefix/bin/qmake \
       /usr/src/Slicer
 # Split the superbuild into building Slicer's dependencies and building Slicer
 # itself.
@@ -71,6 +72,7 @@ RUN ninja -t commands Slicer | csplit - '/Slicer-mkdir/' && \
   echo "#!/bin/sh" > BuildSlicer.sh && \
     head -n 5 xx01 >> BuildSlicer.sh && \
     echo "cmake --build /usr/src/Slicer-build/Slicer-build --config Release --target package" >> BuildSlicer.sh && \
+    echo "cmake --build /usr/src/Slicer-build/Slicer-build --config Release --target install" >> BuildSlicer.sh && \
     chmod +x BuildSlicer.sh && \
     rm xx01
 RUN ./BuildSlicerDependencies.sh && \
