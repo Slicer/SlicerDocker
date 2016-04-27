@@ -70,7 +70,7 @@ RUN ninja -t commands Slicer | csplit - '/Slicer-mkdir/' && \
     rm xx00 && \
   echo "#!/bin/sh" > BuildSlicer.sh && \
     head -n 5 xx01 >> BuildSlicer.sh && \
-    echo "cmake --build /usr/src/Slicer-build/Slicer-build --config Release --target package | tee ./PACKAGES.txt" >> BuildSlicer.sh && \
+    echo "cmake --build /usr/src/Slicer-build/Slicer-build --target package | tee ./PACKAGES.txt" >> BuildSlicer.sh && \
     echo "cat ./PACKAGES.txt | gawk 'match(\$0, /CPack: - package: (.*) generated/, a) {print a[1]}' > PACKAGE_FILE.txt" >> BuildSlicer.sh && \
     echo "tar -C /usr/src/install-prefix -xzf \$(head -n1 PACKAGE_FILE.txt)" >> BuildSlicer.sh && \
     chmod +x BuildSlicer.sh && \
