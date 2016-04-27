@@ -56,7 +56,6 @@ RUN  mkdir /usr/src/Slicer-build
 WORKDIR /usr/src/Slicer-build
 RUN cmake \
     -G Ninja \
-    -DCMAKE_INSTALL_PREFIX:PATH=/usr/src/install-prefix \
     -DCMAKE_BUILD_TYPE:STRING=MinSizeRel \
     -DSlicer_BUILD_ITKPython:BOOL=ON \
     -DSlicer_INSTALL_ITKPython:BOOL=ON \
@@ -71,8 +70,9 @@ RUN ninja -t commands Slicer | csplit - '/Slicer-mkdir/' && \
     rm xx00 && \
   echo "#!/bin/sh" > BuildSlicer.sh && \
     head -n 5 xx01 >> BuildSlicer.sh && \
-    echo "cmake --build /usr/src/Slicer-build/Slicer-build --config Release --target package" >> BuildSlicer.sh && \
-    echo "cmake --build /usr/src/Slicer-build/Slicer-build --config Release --target install" >> BuildSlicer.sh && \
+    echo "cmake --build /usr/src/Slicer-build/Slicer-build --config Release --target package | tee ./PACKAGES.txt" >> BuildSlicer.sh && \
+    echo "cat ./PACKAGES.txt | gawk 'match(\$0, /CPack: - package: (.*) generated/, a) {print a[1]}' > PACKAGE_FILE.txt" >> BuildSlicer.sh && \
+    echo "tar -C /usr/src/install-prefix -xzf \$(head -n1 PACKAGE_FILE.txt)" >> BuildSlicer.sh && \
     chmod +x BuildSlicer.sh && \
     rm xx01
 RUN ./BuildSlicerDependencies.sh && \
