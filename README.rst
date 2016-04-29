@@ -31,7 +31,6 @@ Usage
 To build and package a local Slicer source tree at `~/src/Slicer` against pre-built dependencies::
 
   docker run --name slicer slicer/slicer-build-deps
-  # Here /usr/src/Slicer-build/Slicer-build/Slicer-4.5.0-2016-02-23-linux-amd64.tar.gz
-  # is the generated Slicer package for Linux.
-  docker cp slicer:/usr/src/Slicer-build/Slicer-build/Slicer-4.5.0-2016-02-23-linux-amd64.tar.gz /tmp/
+  # Copy the generated Slicer package to the /tmp/ directory.
+  docker cp slicer:$(docker cp slicer:/usr/src/Slicer-build/Slicer-build/PACKAGE_FILE.txt - | tar xO) /tmp/
   docker rm slicer
