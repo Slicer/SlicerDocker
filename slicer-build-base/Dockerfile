@@ -21,7 +21,6 @@ WORKDIR /usr/src
 RUN wget --no-check-certificate https://gist.githubusercontent.com/jcfr/9513568/raw/21f4e4cabca5ad03435ecc17ab546dab5e2c1a2f/get-and-build-openssl-for-slicer.sh && \
   chmod u+x get-and-build-openssl-for-slicer.sh && \
   ./get-and-build-openssl-for-slicer.sh
-VOLUME /usr/src/openssl-1.0.1e
 
 ## This will configure and build Qt in RELEASE against the zlib and openssl previously built
 RUN wget http://download.qt.io/official_releases/qt/4.8/4.8.7/qt-everywhere-opensource-src-4.8.7.tar.gz && \
