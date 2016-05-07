@@ -18,7 +18,7 @@ RUN yum update -y && \
 WORKDIR /usr/src
 
 # This will download, then build zlib and openssl in the current folder
-RUN wget --no-check-certificate https://gist.githubusercontent.com/jcfr/9513568/raw/21f4e4cabca5ad03435ecc17ab546dab5e2c1a2f/get-and-build-openssl-for-slicer.sh && \
+RUN wget --no-check-certificate https://gist.githubusercontent.com/jcfr/9513568/raw/0dc6707197702e3f7f6653a1940cb467378a065c/get-and-build-openssl-for-slicer.sh && \
   chmod u+x get-and-build-openssl-for-slicer.sh && \
   ./get-and-build-openssl-for-slicer.sh
 
@@ -45,8 +45,8 @@ RUN wget http://download.qt.io/official_releases/qt/4.8/4.8.7/qt-everywhere-open
   rm -rf /usr/src/install-prefix/doc
 ENV PATH /usr/src/install-prefix/bin:$PATH
 
-# Slicer master 2016-04-25
-ENV SLICER_VERSION 55d36392e4b10e6943b15ac1712a7aaeaea92ed5
+# Slicer master 2016-05-06
+ENV SLICER_VERSION 953fce213168159c887ce9757cfdf9d4ea34d662
 RUN git clone --single-branch https://github.com/Slicer/Slicer.git && \
   cd Slicer && \
   git checkout ${SLICER_VERSION} && \
