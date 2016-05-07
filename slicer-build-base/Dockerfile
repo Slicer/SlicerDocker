@@ -63,11 +63,13 @@ RUN cmake \
 # Split the superbuild into building Slicer's dependencies and building Slicer
 # itself.
 RUN ninja -t commands Slicer | csplit - '/Slicer-mkdir/' && \
-  echo "#!/bin/sh" > BuildSlicerDependencies.sh && \
+  echo "#!/bin/bash" > BuildSlicerDependencies.sh && \
+    echo "set -o" >> BuildSlicerDependencies.sh && \
     cat xx00 >> BuildSlicerDependencies.sh && \
     chmod +x BuildSlicerDependencies.sh && \
     rm xx00 && \
-  echo "#!/bin/sh" > BuildSlicer.sh && \
+  echo "#!/bin/bash" > BuildSlicer.sh && \
+    echo "set -o" >> BuildSlicer.sh && \
     head -n 5 xx01 >> BuildSlicer.sh && \
     echo "cmake --build /usr/src/Slicer-build/Slicer-build -- \$BUILD_TOOL_FLAGS" >> BuildSlicer.sh && \
     echo "cmake --build /usr/src/Slicer-build/Slicer-build --target package -- \$BUILD_TOOL_FLAGS | tee ./PACKAGES.txt" >> BuildSlicer.sh && \
