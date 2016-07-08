@@ -45,8 +45,8 @@ RUN wget http://download.qt.io/official_releases/qt/4.8/4.8.7/qt-everywhere-open
   rm -rf /usr/src/install-prefix/doc
 ENV PATH /usr/src/install-prefix/bin:$PATH
 
-# Slicer master 2016-07-06
-ENV SLICER_VERSION 25207
+# Slicer master 2016-07-08
+ENV SLICER_VERSION 25227
 RUN svn checkout -r ${SLICER_VERSION} http://svn.slicer.org/Slicer4/trunk Slicer && \
   cd Slicer && \
   rm -rf .svn
@@ -79,12 +79,12 @@ RUN ninja -t commands Slicer | csplit - '/Slicer-mkdir/' && \
 RUN ./BuildSlicerDependencies.sh && \
   find . -name '*.o' -delete && \
   rm -rf SimpleITK-install SimpleITK-build && \
-  rm -rf VTKv6/.git ITKv4/.git && \
+  rm -rf VTKv7/.git ITKv4/.git && \
   find ITKv4-build/Wrapping -name '*.cpp' -delete -o -name '*.xml' -delete && \
   rm -rf ITKv4-build/Wrapping/Generators/castxml* && \
   rm *.tgz && \
   mv python-install .. && rm -rf python* Python* && mv ../python-install . && \
-  find VTKv6 -name '*.cxx' -delete -o -name '*.cpp' -delete && \
+  find VTKv7 -name '*.cxx' -delete -o -name '*.cpp' -delete && \
   find ITKv4 -name '*.cxx' -delete -o -name '*.cpp' -delete && \
   find DCMTK -name '*.cc' -delete && \
   rm -rf CTK-build/PythonQt/generated*
