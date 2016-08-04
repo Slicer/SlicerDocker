@@ -59,8 +59,9 @@ RUN cmake \
     -DSlicer_BUILD_ITKPython:BOOL=ON \
     -DSlicer_INSTALL_ITKPython:BOOL=ON \
       /usr/src/Slicer
-# Split the superbuild into building Slicer's dependencies and building Slicer
-# itself.
+# Split the superbuild commands (what is executed by ninja) into building Slicer's
+# dependencies, and building Slicer itself.
+#   NOTE: xx00, xx01... files are created by `csplit` from the `ninja ...` output.
 RUN ninja -t commands Slicer | csplit - '/Slicer-mkdir/' && \
   echo "#!/bin/bash" > BuildSlicerDependencies.sh && \
     echo "set -o" >> BuildSlicerDependencies.sh && \
