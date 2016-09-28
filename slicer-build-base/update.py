@@ -19,6 +19,9 @@ def update_dockerfile(dockerfile, svn_revison, svn_revision_date):
     with open(dockerfile) as f:
         for line in f:
             if 'ENV SLICER_VERSION' in line:
+                current_svn_revision = line.strip().split(' ')[2]
+                if current_svn_revision == svn_revison:
+                    return False
                 line = "ENV SLICER_VERSION %s\n" % svn_revison
             if '# Slicer master ' in line:
                 line = "# Slicer master %s\n" % svn_revision_date
@@ -26,6 +29,7 @@ def update_dockerfile(dockerfile, svn_revison, svn_revision_date):
     with open(dockerfile, 'w') as f:
         f.writelines(lines)
         print("File %s updated\n" % dockerfile)
+    return True
 
 def _run(cmd):
     print("Executing %s" % ' '.join(cmd))
@@ -41,9 +45,10 @@ if __name__ == '__main__':
     slicer_build_base_dir = os.path.dirname(__file__)
     dockerfile = os.path.join(slicer_build_base_dir, "Dockerfile")
 
-    update_dockerfile(dockerfile, args.svn_revision, args.svn_revision_date)
-
-    _run(['git', 'add', dockerfile])
-    message = 'ENH: slicer-build-base: Update to Slicer r%s from %s' % (args.svn_revision, args.svn_revision_date)
-    _run(['git', 'commit', '-m', message])
+    if update_dockerfile(dockerfile, args.svn_revision, args.svn_revision_date):
+      _run(['git', 'add', dockerfile])
+      message = 'ENH: slicer-build-base: Update to Slicer r%s from %s' % (args.svn_revision, args.svn_revision_date)
+      _run(['git', 'commit', '-m', message])
+    else:
+      print('"slicer-build-base/Dockerfile" already updated')
 
