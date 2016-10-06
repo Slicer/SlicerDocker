@@ -2,7 +2,7 @@ FROM slicer/slicer-build-base:latest
 MAINTAINER 3D Slicer Community <slicer-devel@bwh.harvard.edu>
 
 RUN cd /usr/src/Slicer-build && \
-  cmake -DBUILD_TESTING:BOOL=OFF .
+  cmake -DBUILD_TESTING:BOOL=ON .
 
 RUN /usr/src/Slicer-build/BuildSlicer.sh && \
   cd /usr/src/Slicer-build/Slicer-build && \
