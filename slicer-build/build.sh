@@ -2,7 +2,7 @@
 
 script_dir="`cd $(dirname $0); pwd`"
 
-image=slicer/slicer-build
+image=slicer/slicer-build:BUILD_TESTING_ON
 
 docker build -t $image \
     --build-arg IMAGE=$image \
