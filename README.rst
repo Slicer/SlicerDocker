@@ -25,6 +25,13 @@ slicer/slicer-build
   |slicer-build-images| An image containing a Slicer build tree along with
   all the dependencies to build Slicer.
 
+.. |slicer-test-images| image:: https://images.microbadger.com/badges/image/slicer/slicer-test.svg
+  :target: https://microbadger.com/images/slicer/slicer-test
+
+slicer/slicer-test
+  |slicer-test-images| An image containing a Slicer build and test tree along with
+  all the dependencies to build Slicer.
+
 Usage
 -----
 
