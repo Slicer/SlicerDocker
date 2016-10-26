@@ -37,7 +37,7 @@ def _run(cmd):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
-        description='Update "slicer-build-base/Dockerfile" and git commit.')
+        description='Update "slicer-base/Dockerfile" and git commit.')
     parser.add_argument("svn_revision")
     parser.add_argument("svn_revision_date")
     args = parser.parse_args()
@@ -47,8 +47,8 @@ if __name__ == '__main__':
 
     if update_dockerfile(dockerfile, args.svn_revision, args.svn_revision_date):
       _run(['git', 'add', dockerfile])
-      message = 'ENH: slicer-build-base: Update to Slicer r%s from %s' % (args.svn_revision, args.svn_revision_date)
+      message = 'ENH: slicer-base: Update to Slicer r%s from %s' % (args.svn_revision, args.svn_revision_date)
       _run(['git', 'commit', '-m', message])
     else:
-      print('"slicer-build-base/Dockerfile" already updated')
+      print('"slicer-base/Dockerfile" already updated')
 

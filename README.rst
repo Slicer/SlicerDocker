@@ -4,11 +4,11 @@ Docker images for 3D Slicer
 Images
 ------
 
-.. |slicer-build-base-images| image:: https://images.microbadger.com/badges/image/slicer/slicer-build-base.svg
-  :target: https://microbadger.com/images/slicer/slicer-build-base
+.. |slicer-base-images| image:: https://images.microbadger.com/badges/image/slicer/slicer-base.svg
+  :target: https://microbadger.com/images/slicer/slicer-base
 
-slicer/slicer-build-base
-  |slicer-build-base-images| The base image for *slicer/slicer-dependencies*
+slicer/slicer-base
+  |slicer-base-images| The base image for *slicer/slicer-dependencies*
   and *slicer/slicer-build*.
 
 .. |slicer-dependencies-images| image:: https://images.microbadger.com/badges/image/slicer/slicer-dependencies.svg
