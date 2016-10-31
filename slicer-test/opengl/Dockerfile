@@ -42,3 +42,16 @@ COPY CircleCI_Slicer_Docker.cmake /usr/src/CircleCI_Slicer_Docker.cmake
 
 # Authorize to write in Slicer-build to recover logs of ctest
 ENV APP "sudo chown -R user.user /usr/src/Slicer-build && /usr/src/test.sh"
+
+# Build-time metadata as defined at http://label-schema.org
+ARG BUILD_DATE
+ARG IMAGE
+ARG VCS_REF
+ARG VCS_URL
+LABEL org.label-schema.build-date=$BUILD_DATE \
+      org.label-schema.name=$IMAGE \
+      org.label-schema.description="The Slicer opengl image based on thewtex/opengl:centos which contains configuration files for running Slicer's tests." \
+      org.label-schema.url="http://www.slicer.org" \
+      org.label-schema.vcs-ref=$VCS_REF \
+      org.label-schema.vcs-url=$VCS_URL \
+      org.label-schema.schema-version="1.0"
