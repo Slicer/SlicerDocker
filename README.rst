@@ -32,6 +32,12 @@ slicer/slicer-test
   |slicer-test-images| An image containing a Slicer build and test tree along with
   all the dependencies to build Slicer.
 
+.. |slicer-test-opengl-images| image:: https://images.microbadger.com/badges/image/slicer/slicer-test.svg
+  :target: https://microbadger.com/images/slicer/slicer-test
+
+slicer/slicer-test:opengl
+  |slicer-test-opengl-images| An image based on thewtex/opengl:centos which contains configuration files to run Slicer's tests
+
 Usage
 -----
 
