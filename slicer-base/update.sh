@@ -21,6 +21,8 @@
 #   1 file changed, 2 insertions(+), 2 deletions(-)
 #
 
+set -e
+
 script_dir="`cd $(dirname $0); pwd`"
 
 if test -z "$1"; then
