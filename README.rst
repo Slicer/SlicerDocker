@@ -47,3 +47,21 @@ To build and package a local Slicer source tree at `~/src/Slicer` against pre-bu
   # Copy the generated Slicer package to the /tmp/ directory.
   docker cp slicer:$(docker cp slicer:/usr/src/Slicer-build/Slicer-build/PACKAGE_FILE.txt - | tar xO) /tmp/
   docker rm slicer
+
+Update
+------
+
+To update the Slicer revision, first install *git svn*::
+
+  sudo apt-get install git-svn
+
+Then, configure a Slicer Git SVN repository as `described on the wiki
+<http://wiki.slicer.org/slicerWiki/index.php/Slicer:git-svn>`_.
+
+Then check out a local branch for the update::
+
+  git checkout -b update-$(date +%F)
+
+And run the update script::
+
+  ./slicer-base/update.sh /path/to/src/Slicer
