@@ -62,13 +62,7 @@ set( CTEST_CONFIGURATION_TYPE "${SITE_BUILD_TYPE}" )
 set( CMAKE_BUILD_TYPE "${SITE_BUILD_TYPE}" )
 set( BUILD_TESTING ON )
 
-#set( TEST_GUI "qSlicerBaseQTGUICxxTests" )
-#set( CTEST_BUILD_TARGET "${TEST_GUI}" )
-
 #set( BUILD_TOOL_FLAGS "-j8" )
-
-set( RUN_TEST_GUI "qSlicerWidgetTest2" )
-set( CTEST_TEST_TARGET "${RUN_TEST_GUI}" )
 
 ######### Submit Config ##########
 
@@ -90,7 +84,7 @@ ctest_start( "${SITE_CTEST_MODE}" )
 #ctest_build( BUILD ${CTEST_BINARY_DIR} )
 #    TARGET "${TEST_GUI}" )
 
-ctest_test( BUILD "${CTEST_BINARY_DIRECTORY}" 
-    INCLUDE "${RUN_TEST_GUI}" )
+ctest_test( BUILD "${CTEST_BINARY_DIRECTORY}" )
+#    INCLUDE "${RUN_TEST_GUI}" )
 
 ctest_submit()
