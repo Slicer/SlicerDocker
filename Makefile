@@ -18,33 +18,30 @@ build-all: slicer-base slicer-dependencies slicer-build slicer-test
 push-all: slicer-base.push slicer-dependencies.push slicer-build.push slicer-test.push
 
 slicer-base: slicer-base/Dockerfile
-	image=$(ORG)/slicer-base
-	$(DOCKER) build -t $image \
-		--build-arg IMAGE=$image \
+	$(DOCKER) build -t $(ORG)/$@ \
+		--build-arg IMAGE=$(ORG)/$@ \
 		--build-arg VCS_REF=`git rev-parse --short HEAD` \
 		--build-arg VCS_URL=`git config --get remote.origin.url` \
 		--build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
 		slicer-base
 
+
 slicer-base.push: slicer-base
 	$(DOCKER) push $(ORG)/slicer-base
 
 slicer-dependencies: slicer-base/Dockerfile slicer-base
-	image=$(ORG)/slicer-dependencies
-	$(DOCKER) build -t $image \
-		--build-arg IMAGE=$image \
+	$(DOCKER) build -t $(ORG)/$@ \
+		--build-arg IMAGE=$(ORG)/$@ \
 		--build-arg VCS_REF=`git rev-parse --short HEAD` \
 		--build-arg VCS_URL=`git config --get remote.origin.url` \
 		--build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
 		slicer-dependencies
-
 slicer-dependencies.push: slicer-dependencies
 	$(DOCKER) push $(ORG)/slicer-dependencies
 
 slicer-build: slicer-build/Dockerfile slicer-base
-	image=$(ORG)/slicer-build
-	$(DOCKER) build -t $image \
-		--build-arg IMAGE=$image \
+	$(DOCKER) build -t $(ORG)/$@ \
+		--build-arg IMAGE=$(ORG)/$@ \
 		--build-arg VCS_REF=`git rev-parse --short HEAD` \
 		--build-arg VCS_URL=`git config --get remote.origin.url` \
 		--build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
@@ -54,9 +51,8 @@ slicer-build.push: slicer-build
 	$(DOCKER) push $(ORG)/slicer-build
 
 slicer-test: slicer-test/Dockerfile slicer-base
-	image=$(ORG)/slicer-test
-	$(DOCKER) build -t $image \
-		--build-arg IMAGE=$image \
+	$(DOCKER) build -t $(ORG)/$@ \
+		--build-arg IMAGE=$(ORG)/$@ \
 		--build-arg VCS_REF=`git rev-parse --short HEAD` \
 		--build-arg VCS_URL=`git config --get remote.origin.url` \
 		--build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
@@ -66,9 +62,8 @@ slicer-test.push: slicer-test
 	$(DOCKER) push $(ORG)/slicer-test
 
 slicer-test-opengl: slicer-test/opengl/Dockerfile
-	image=$(ORG)/slicer-test:opengl
-	$(DOCKER) build -t $image \
-		--build-arg IMAGE=$image \
+	$(DOCKER) build -t $(ORG)/slicer-test:opengl \
+		--build-arg IMAGE=$(ORG)/slicer-test:opengl\
 		--build-arg VCS_REF=`git rev-parse --short HEAD` \
 		--build-arg VCS_URL=`git config --get remote.origin.url` \
 		--build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
