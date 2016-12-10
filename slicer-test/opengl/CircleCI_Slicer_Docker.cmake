@@ -84,7 +84,13 @@ ctest_start( "${SITE_CTEST_MODE}" )
 #ctest_build( BUILD ${CTEST_BINARY_DIR} )
 #    TARGET "${TEST_GUI}" )
 
-ctest_test( BUILD "${CTEST_BINARY_DIRECTORY}" )
+ctest_test( BUILD "${CTEST_BINARY_DIRECTORY}"
+    RETURN_VALUE ctest_return_value )
 #    INCLUDE "${RUN_TEST_GUI}" )
 
 ctest_submit()
+
+if(NOT ctest_return_value EQUAL 0)
+  message( "\n" )
+  message( SEND_ERROR "Some tests have failed. Exit status ${ctest_return_value}" )
+endif()
