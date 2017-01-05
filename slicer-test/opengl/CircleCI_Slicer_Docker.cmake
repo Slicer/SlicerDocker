@@ -64,6 +64,8 @@ set( BUILD_TESTING ON )
 
 #set( BUILD_TOOL_FLAGS "-j8" )
 
+set( EXCLUDE_RUN_TEST "vtkMRMLVolumeRenderingDisplayableManagerTest1|py_StandaloneEditorWidgetTest|py_CLIEventTest" )
+
 ######### Submit Config ##########
 
 set(CTEST_PROJECT_NAME "Slicer")
@@ -85,8 +87,8 @@ ctest_start( "${SITE_CTEST_MODE}" )
 #    TARGET "${TEST_GUI}" )
 
 ctest_test( BUILD "${CTEST_BINARY_DIRECTORY}"
-    RETURN_VALUE ctest_return_value )
-#    INCLUDE "${RUN_TEST_GUI}" )
+    RETURN_VALUE ctest_return_value
+    EXCLUDE "${EXCLUDE_RUN_TEST}")
 
 ctest_submit()
 
