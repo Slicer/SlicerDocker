@@ -39,13 +39,14 @@ set( Slicer_GIT_REPOSITORY "https://github.com/Slicer/Slicer.git" )
 set( CTEST_SITE "CircleCI_Slicer" )
 
 # Follow format for caps and components as given on Slicer dashboard
-set( SITE_PLATFORM "Ubuntu-64" )
+set( SITE_PLATFORM "CentOS5" )
 
-# Use SITE_BUILD_TYPE specified by circle.yml
-set( SITE_BUILD_TYPE "$ENV{SITE_BUILD_TYPE}" )
-if( NOT( (SITE_BUILD_TYPE MATCHES "Debug") OR (SITE_BUILD_TYPE MATCHES "Release") ) )
-  set( SITE_BUILD_TYPE "Debug" ) # Release, Debug
-endif( NOT( (SITE_BUILD_TYPE MATCHES "Debug") OR (SITE_BUILD_TYPE MATCHES "Release") ) )
+# Use SITE_BUILD_TYPE specified by slicer-build-with-test
+execute_process (
+    COMMAND bash -c "grep BUILD_TYPE /usr/src/Slicer-build/Slicer-build/CMakeCache.txt | cut -d '=' -f2"
+    OUTPUT_VARIABLE SITE_BUILD_TYPE
+)
+message( "\nCMAKE_BUILD_TYPE: ${SITE_BUILD_TYPE}" )
 
 # Named SITE_BUILD_NAME
 string( SUBSTRING $ENV{CIRCLE_SHA1} 0 7 commit )
@@ -58,11 +59,13 @@ set( CTEST_BUILD_NAME "${SITE_BUILD_NAME}-BuildTest-${SITE_CTEST_MODE}" )
 
 ######### Config ##########
 
-set( CTEST_CONFIGURATION_TYPE "${SITE_BUILD_TYPE}" )
-set( CMAKE_BUILD_TYPE "${SITE_BUILD_TYPE}" )
+#set( CTEST_CONFIGURATION_TYPE "${SITE_BUILD_TYPE}" )
+#set( CMAKE_BUILD_TYPE "${SITE_BUILD_TYPE}" )
 set( BUILD_TESTING ON )
 
 #set( BUILD_TOOL_FLAGS "-j8" )
+
+set( EXCLUDE_RUN_TEST "vtkMRMLVolumeRenderingDisplayableManagerTest1|py_StandaloneEditorWidgetTest|py_CLIEventTest" )
 
 ######### Submit Config ##########
 
@@ -84,7 +87,13 @@ ctest_start( "${SITE_CTEST_MODE}" )
 #ctest_build( BUILD ${CTEST_BINARY_DIR} )
 #    TARGET "${TEST_GUI}" )
 
-ctest_test( BUILD "${CTEST_BINARY_DIRECTORY}" )
-#    INCLUDE "${RUN_TEST_GUI}" )
+ctest_test( BUILD "${CTEST_BINARY_DIRECTORY}"
+    RETURN_VALUE ctest_return_value
+    EXCLUDE "${EXCLUDE_RUN_TEST}")
 
 ctest_submit()
+
+if(NOT ctest_return_value EQUAL 0)
+  message( "\n" )
+  message( SEND_ERROR "Some tests have failed. Exit status ${ctest_return_value}" )
+endif()
