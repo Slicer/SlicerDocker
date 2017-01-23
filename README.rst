@@ -38,6 +38,7 @@ slicer/slicer-test
 slicer/slicer-test:opengl
   |slicer-test-opengl-images| An image based on thewtex/opengl:centos which contains configuration files to run Slicer's tests
 
+
 Usage
 -----
 
