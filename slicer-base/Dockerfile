@@ -84,14 +84,27 @@ RUN ninja -t commands Slicer | csplit - '/Slicer-mkdir/' && \
 RUN ./BuildSlicerDependencies.sh && \
   find . -name '*.o' -delete && \
   rm -rf SimpleITK-install SimpleITK-build && \
-  rm -rf VTKv7/.git ITKv4/.git && \
+  rm -rf \
+    curl/.git \
+    CTK/.git \
+    DCMTK/.git \
+    ITKv4/.git \
+    JsonCpp/.git \
+    OpenIGTLink/.git \
+    ParameterSerializer/.git \
+    qRestAPI/.git \
+    RapidJSON/.git \
+    SlicerExecutionModel/.git \
+    VTKv7/.git  && \
   find ITKv4-build/Wrapping -name '*.cpp' -delete -o -name '*.xml' -delete && \
   rm -rf ITKv4-build/Wrapping/Generators/castxml* && \
   rm *.tgz && \
   mv python-install .. && rm -rf python* Python* && mv ../python-install . && \
-  find VTKv7 -name '*.cxx' -delete -o -name '*.cpp' -delete && \
-  find ITKv4 -name '*.cxx' -delete -o -name '*.cpp' -delete && \
+  find curl -name '*.c' -delete && \
+  find CTK -name '*.cpp' -delete && \
   find DCMTK -name '*.cc' -delete && \
+  find ITKv4 -name '*.cxx' -delete -o -name '*.cpp' -delete && \
+  find VTKv7 -name '*.cxx' -delete -o -name '*.cpp' -delete && \
   rm -rf CTK-build/PythonQt/generated*
 
 # Build-time metadata as defined at http://label-schema.org
