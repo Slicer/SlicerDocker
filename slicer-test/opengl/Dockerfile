@@ -21,6 +21,10 @@ RUN git clone git://cmake.org/cmake.git CMake && \
   make install && \
   cd .. && rm -rf CMake*
 
+ADD etc/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo
+ADD etc/CentOS-Vault.repo /etc/yum.repos.d/CentOS-Vault.repo
+ADD etc/libselinux.repo /etc/yum.repos.d/libselinux.repo
+
 RUN yum update -y && \
   yum install -y glx-utils \
   subversion \

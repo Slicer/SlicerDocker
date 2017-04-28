@@ -1,6 +1,10 @@
 FROM thewtex/centos-build:v1.0.0
 MAINTAINER 3D Slicer Community <slicer-devel@bwh.harvard.edu>
 
+ADD etc/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo
+ADD etc/CentOS-Vault.repo /etc/yum.repos.d/CentOS-Vault.repo
+ADD etc/libselinux.repo /etc/yum.repos.d/libselinux.repo
+
 RUN yum update -y && \
   yum install -y \
     fontconfig-devel \
