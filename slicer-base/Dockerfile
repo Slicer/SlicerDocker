@@ -63,20 +63,31 @@ RUN cmake \
 # dependencies, and building Slicer itself.
 #   NOTE: xx00, xx01... files are created by `csplit` from the `ninja ...` output.
 RUN ninja -t commands Slicer | csplit - '/Slicer-mkdir/' && \
-  echo "#!/bin/bash" > BuildSlicerDependencies.sh && \
+  echo '#!/bin/bash' > BuildSlicerDependencies.sh && \
+    echo "set -e" >> BuildSlicerDependencies.sh && \
+    echo "set -x" >> BuildSlicerDependencies.sh && \
+    echo "set -o pipefail" >> BuildSlicerDependencies.sh && \
     echo "set -o" >> BuildSlicerDependencies.sh && \
-    cat xx00 >> BuildSlicerDependencies.sh && \
+    while IFS='' read -r line || [[ -n "$line" ]]; do \
+      echo "$line || exit \$?" >> BuildSlicerDependencies.sh; \
+    done < xx00 && \
     chmod +x BuildSlicerDependencies.sh && \
     rm xx00 && \
-  echo "#!/bin/bash" > BuildSlicer.sh && \
+  echo '#!/bin/bash' > BuildSlicer.sh && \
+    echo "set -e" >> BuildSlicer.sh && \
+    echo "set -x" >> BuildSlicer.sh && \
+    echo "set -o pipefail" >> BuildSlicer.sh && \
     echo "set -o" >> BuildSlicer.sh && \
-    head -n 5 xx01 >> BuildSlicer.sh && \
+    head -n 5 xx01 > xx01-no-slicer-build && \
+    while IFS='' read -r line || [[ -n "$line" ]]; do \
+      echo "$line || exit \$?" >> BuildSlicer.sh; \
+    done < xx01-no-slicer-build && \
     echo "cmake --build /usr/src/Slicer-build/Slicer-build -- \$BUILD_TOOL_FLAGS" >> BuildSlicer.sh && \
     echo "cmake --build /usr/src/Slicer-build/Slicer-build --target package -- \$BUILD_TOOL_FLAGS | tee ./PACKAGES.txt" >> BuildSlicer.sh && \
     echo "cat ./PACKAGES.txt | gawk 'match(\$0, /CPack: - package: (.*) generated/, a) {print a[1]}' > PACKAGE_FILE.txt" >> BuildSlicer.sh && \
     echo "tar -C /usr/src/install-prefix -xzf \$(head -n1 PACKAGE_FILE.txt)" >> BuildSlicer.sh && \
     chmod +x BuildSlicer.sh && \
-    rm xx01
+    rm xx01 xx01-no-slicer-build
 RUN ./BuildSlicerDependencies.sh && \
   find . -name '*.o' -delete && \
   rm -rf SimpleITK-install SimpleITK-build && \
