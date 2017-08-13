@@ -45,8 +45,8 @@ RUN wget http://download.qt.io/official_releases/qt/4.8/4.8.7/qt-everywhere-open
   rm -rf /usr/src/install-prefix/doc
 ENV PATH /usr/src/install-prefix/bin:$PATH
 
-# Slicer master 2017-08-11
-ENV SLICER_VERSION 26241
+# Slicer master 2017-08-12
+ENV SLICER_VERSION 26243
 RUN svn checkout -r ${SLICER_VERSION} http://svn.slicer.org/Slicer4/trunk Slicer && \
   cd Slicer && \
   rm -rf .svn
