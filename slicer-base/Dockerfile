@@ -102,7 +102,7 @@ RUN ./BuildSlicerDependencies.sh && \
     qRestAPI/.git \
     RapidJSON/.git \
     SlicerExecutionModel/.git \
-    VTKv8/.git  && \
+    VTKv9/.git  && \
   find ITKv4-build/Wrapping -name '*.cpp' -delete -o -name '*.xml' -delete && \
   rm -rf ITKv4-build/Wrapping/Generators/castxml* && \
   rm *.tgz && \
@@ -111,7 +111,7 @@ RUN ./BuildSlicerDependencies.sh && \
   find CTK -name '*.cpp' -delete && \
   find DCMTK -name '*.cc' -delete && \
   find ITKv4 -name '*.cxx' -delete -o -name '*.cpp' -delete && \
-  find VTKv8 -name '*.cxx' -delete -o -name '*.cpp' -delete && \
+  find VTKv9 -name '*.cxx' -delete -o -name '*.cpp' -delete && \
   rm -rf CTK-build/PythonQt/generated*
 
 # Build-time metadata as defined at http://label-schema.org
