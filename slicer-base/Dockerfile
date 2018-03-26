@@ -17,7 +17,7 @@ RUN yum update -y && \
 WORKDIR /usr/src
 
 # This will download, then build zlib and openssl in the current folder
-RUN curl -LO https://gist.githubusercontent.com/jcfr/9513568/raw/ee9d3244f6b4a5f0cd9969e8dcaf3f1969948c5e/get-and-build-openssl-for-slicer.sh && \
+RUN curl -LO https://gist.githubusercontent.com/jcfr/9513568/raw/4a458588f68caeca18abc2c399666f928ee44f09/get-and-build-openssl-for-slicer.sh && \
   chmod u+x get-and-build-openssl-for-slicer.sh && \
   ./get-and-build-openssl-for-slicer.sh
 
@@ -36,7 +36,7 @@ RUN curl -LO http://download.qt.io/official_releases/qt/4.8/4.8.7/qt-everywhere-
    -no-qt3support \
    -webkit \
    -nomake examples -nomake demos \
-   -openssl -I /usr/src/openssl-1.0.1e/include -L /usr/src/openssl-1.0.1e && \
+   -openssl -I /usr/src/openssl-1.0.1h/include -L /usr/src/openssl-1.0.1h/lib && \
   make -j$(grep -c processor /proc/cpuinfo) && \
   make install && \
   cd .. &&\
