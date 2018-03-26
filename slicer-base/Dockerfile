@@ -1,5 +1,4 @@
 FROM dockbuild/centos5:latest
-MAINTAINER 3D Slicer Community <slicer-devel@bwh.harvard.edu>
 
 RUN yum update -y && \
   yum install -y \
@@ -125,4 +124,5 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.url="http://www.slicer.org" \
       org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.vcs-url=$VCS_URL \
-      org.label-schema.schema-version="1.0"
+      org.label-schema.schema-version="1.0" \
+      maintainer="3D Slicer Community <slicer-devel@bwh.harvard.edu>"
