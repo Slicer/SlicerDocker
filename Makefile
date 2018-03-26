@@ -29,12 +29,15 @@ ORG = slicer
 #
 
 build =                                                      \
-	$(DOCKER) build -t $(ORG)/$(subst _,:,$(1))                \
-		--build-arg IMAGE=$(ORG)/$(subst _,:,$(1))               \
+	$(eval REPO := $(subst _,:,$(1)))                          \
+	$(eval TAG := latest)                                      \
+	$(eval DIR := $(subst _,/,$(1)))                           \
+	$(DOCKER) build -t $(ORG)/$(REPO):$(TAG)                   \
+		--build-arg IMAGE=$(ORG)/$(REPO):$(TAG)                  \
 		--build-arg VCS_REF=`git rev-parse --short HEAD`         \
 		--build-arg VCS_URL=`git config --get remote.origin.url` \
 		--build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"`   \
-		$(subst _,/,$(1))
+		$(DIR)
 
 #
 # Rules
