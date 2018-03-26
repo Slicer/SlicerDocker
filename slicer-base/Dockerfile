@@ -6,10 +6,10 @@ ENV PATH=/usr/src/install-prefix/bin:${PATH}
 
 RUN \
   yum update -y && \
+  #
+  # Qt dependencies: https://doc.qt.io/archives/qt-4.8/requirements-x11.html
+  #
   yum install -y \
-    #
-    # Qt dependencies: https://doc.qt.io/archives/qt-4.8/requirements-x11.html
-    #
     fontconfig-devel \
     libX11-devel \
     libXt-devel \
