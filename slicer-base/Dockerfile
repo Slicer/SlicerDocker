@@ -1,4 +1,4 @@
-FROM centosbuild/centos5:latest
+FROM dockbuild/centos5:latest
 MAINTAINER 3D Slicer Community <slicer-devel@bwh.harvard.edu>
 
 RUN yum update -y && \
