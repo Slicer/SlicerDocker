@@ -78,7 +78,7 @@ RUN \
   rm -rf SimpleITK* && \
   rm -rf Python-2* && \
   # Remove all *-prefix directories
-  find . -maxdepth 1 -type d  -name "*-prefix"  -exec rm -rf "{}" \; && \
+  find . -maxdepth 1 -type d  -name Slicer-prefix -o -type d -name "*-prefix"  -exec rm -rf "{}" \; && \
   # Remove uneeded source and build tree
   rm -rf \
     bzip2 bzip2-build \
