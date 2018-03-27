@@ -84,8 +84,8 @@ RUN \
   cmake \
     -G Ninja \
     -DCMAKE_BUILD_TYPE:STRING=MinSizeRel \
-    -DSlicer_BUILD_ITKPython:BOOL=ON \
-    -DSlicer_INSTALL_ITKPython:BOOL=ON \
+    -DSlicer_BUILD_ITKPython:BOOL=OFF \
+    -DSlicer_INSTALL_ITKPython:BOOL=OFF \
       /usr/src/Slicer && \
   #
   # Split the superbuild commands (what is executed by ninja) into building Slicer's
