@@ -5,8 +5,6 @@ ENV SLICER_VERSION 27106
 
 ENV PATH=/usr/src/install-prefix/bin:${PATH}
 
-VOLUME /usr/src/Slicer
-
 RUN \
   #
   # Download sources
@@ -96,7 +94,10 @@ RUN \
   find DCMTK -name '*.cc' -delete && \
   find ITKv4 -name '*.cxx' -delete -o -name '*.cpp' -delete && \
   find VTKv9 -name '*.cxx' -delete -o -name '*.cpp' -delete && \
-  rm -rf CTK-build/PythonQt/generated*
+  rm -rf CTK-build/PythonQt/generated* && \
+  rm -rf /usr/src/Slicer
+
+VOLUME /usr/src/Slicer
 
 WORKDIR /usr/src/Slicer-build
 
