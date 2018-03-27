@@ -1,8 +1,11 @@
 FROM dockbuild/centos5:latest
 
-WORKDIR /usr/src
+# Slicer master 2018-03-25
+ENV SLICER_VERSION 27106
 
 ENV PATH=/usr/src/install-prefix/bin:${PATH}
+
+VOLUME /usr/src/Slicer
 
 RUN \
   yum update -y && \
@@ -33,6 +36,7 @@ RUN \
   #
   # Download Qt sources
   #
+  cd /usr/src && \
   QT_ROOT=qt-everywhere-opensource-src-4.8.7 && \
   curl -LO http://download.qt.io/official_releases/qt/4.8/4.8.7/${QT_ROOT}.tar.gz && \
   echo "d990ee66bf7ab0c785589776f35ba6ad  ${QT_ROOT}.tar.gz" > ${QT_ROOT}.tar.gz.md5 && \
@@ -67,16 +71,17 @@ RUN \
   rm -rf ${QT_INSTALL_DIR}/phrasebooks && \
   rm -rf ${QT_INSTALL_DIR}/tests && \
   rm -rf ${QT_INSTALL_DIR}/translations && \
-
-VOLUME /usr/src/Slicer
-WORKDIR /usr/src/Slicer-build
-
-# Slicer master 2018-03-25
-ENV SLICER_VERSION 27106
-RUN svn checkout -r ${SLICER_VERSION} http://svn.slicer.org/Slicer4/trunk Slicer && \
-  cd Slicer && \
-  rm -rf .svn && \
+  #
+  # Download sources
+  #
+  cd /usr/src && \
+  svn checkout -r ${SLICER_VERSION} http://svn.slicer.org/Slicer4/trunk Slicer && \
+  rm -rf /usr/src/Slicer/.svn && \
+  #
+  # Configure
+  #
   mkdir /usr/src/Slicer-build && \
+  cd /usr/src/Slicer-build && \
   cmake \
     -G Ninja \
     -DCMAKE_BUILD_TYPE:STRING=MinSizeRel \
@@ -88,6 +93,7 @@ RUN svn checkout -r ${SLICER_VERSION} http://svn.slicer.org/Slicer4/trunk Slicer
   # dependencies, and building Slicer itself.
   #   NOTE: xx00, xx01... files are created by `csplit` from the `ninja ...` output.
   #
+  cd /usr/src/Slicer-build && \
   ninja -t commands Slicer | csplit - '/Slicer-mkdir/' && \
   echo '#!/bin/bash' > BuildSlicerDependencies.sh && \
     echo "set -e" >> BuildSlicerDependencies.sh && \
@@ -155,6 +161,7 @@ RUN svn checkout -r ${SLICER_VERSION} http://svn.slicer.org/Slicer4/trunk Slicer
   find VTKv9 -name '*.cxx' -delete -o -name '*.cpp' -delete && \
   rm -rf CTK-build/PythonQt/generated*
 
+WORKDIR /usr/src/Slicer-build
 
 # Build-time metadata as defined at http://label-schema.org
 # BUILD_DATE is omitted to avoid unneeded rebuild
