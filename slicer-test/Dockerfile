@@ -1,16 +1,28 @@
 FROM slicer/slicer-base:latest
 
-RUN cd /usr/src/Slicer-build && \
-  cmake -DBUILD_TESTING:BOOL=ON .
-
-RUN /usr/src/Slicer-build/BuildSlicer.sh && \
+RUN \
+  #
+  # Re-configure
+  #
+  cd /usr/src/Slicer-build && \
+  cmake -DBUILD_TESTING:BOOL=ON . \
+  #
+  # Build
+  #
+  /usr/src/Slicer-build/BuildSlicer.sh && \
+  #
+  # Cleanup
+  #
   cd /usr/src/Slicer-build/Slicer-build && \
   find . -name '*.o' -delete && \
   find lib -name '*.a' -delete && \
   rm -rf _CPack_Packages
+
 VOLUME /usr/src/Slicer-build
 VOLUME /usr/src/install-prefix
+
 WORKDIR /usr/src/Slicer-build/Slicer-build
+
 CMD bash
 
 # Build-time metadata as defined at http://label-schema.org
