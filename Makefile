@@ -29,9 +29,9 @@ ORG = slicer
 #
 
 build =                                                      \
-	$(eval REPO := $(subst _,:,$(1)))                          \
-	$(eval TAG := latest)                                      \
-	$(eval DIR := $(subst _,/,$(1)))                           \
+	$(eval REPO := $(1))                                       \
+	$(eval TAG := $(2))                                        \
+	$(eval DIR := $(3))                                        \
 	$(eval IMAGEID := $(shell $(DOCKER) images -q $(ORG)/$(REPO):$(TAG))) \
 	$(eval BUILD_DATE := $(shell date -u +"%Y-%m-%dT%H:%M:%SZ")) \
 	$(eval BUILD_ARG_BUILD_DATE := $(shell if [ $(REPO) != "slicer-base" ]; then echo "--build-arg BUILD_DATE=$(BUILD_DATE)"; fi)) \
@@ -48,39 +48,31 @@ build =                                                      \
 # Rules
 #
 
-build-all: slicer-base slicer-dependencies slicer-build slicer-test
+ALL_IMAGES = slicer-base slicer-build slicer-dependencies slicer-test
 
-push-all: slicer-base.push slicer-dependencies.push slicer-build.push slicer-test.push
+build-all: $(ALL_IMAGES)
 
-slicer-base: slicer-base/Dockerfile
-	$(call build,$@)
+$(ALL_IMAGES): %: %/Dockerfile
+	$(eval TAG := latest)
+	$(call build,$@,$(TAG),$@)
 
+slicer-build: slicer-base
+slicer-dependencies: slicer-base
+slicer-test: slicer-base
 
-slicer-base.push: slicer-base
-	$(DOCKER) push $(ORG)/slicer-base
+.SECONDEXPANSION:
+$(addsuffix .push,$(ALL_IMAGES)):
+	$(eval REPO := $(basename $@))
+	$(eval TAG := latest)
+	$(DOCKER) push $(ORG)/$(REPO):$(TAG)
 
-slicer-dependencies: slicer-base/Dockerfile slicer-base
-	$(call build,$@)
-
-slicer-dependencies.push: slicer-dependencies
-	$(DOCKER) push $(ORG)/slicer-dependencies
-
-slicer-build: slicer-build/Dockerfile slicer-base
-	$(call build,$@)
-
-slicer-build.push: slicer-build
-	$(DOCKER) push $(ORG)/slicer-build
-
-slicer-test: slicer-test/Dockerfile slicer-base
-	$(call build,$@)
-
-slicer-test.push: slicer-test
-	$(DOCKER) push $(ORG)/slicer-test
+push-all: %.push
 
 slicer-test_opengl: slicer-test/opengl/Dockerfile
-	$(call build,$@)
+	$(eval TAG := opengl)
+	$(call build,slicer-test,$(TAG),slicer-test/opengl)
 
 slicer-test_opengl.push: slicer-test_opengl
 	$(DOCKER) push $(ORG)/$(subst _,:,$@)
 
-.PHONY: build-all push-all slicer-base slicer-dependencies slicer-build slicer-test slicer-test_opengl %.push
+.PHONY: build-all $(ALL_IMAGES) slicer-build slicer-dependencies slicer-test %.push push-all slicer-test_opengl
