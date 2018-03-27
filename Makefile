@@ -66,7 +66,7 @@ $(addsuffix .push,$(ALL_IMAGES)):
 	$(eval TAG := latest)
 	$(DOCKER) push $(ORG)/$(REPO):$(TAG)
 
-push-all: %.push
+push-all: $(addsuffix .push,$(ALL_IMAGES))
 
 slicer-test_opengl: slicer-test/opengl/Dockerfile
 	$(eval TAG := opengl)
@@ -75,4 +75,4 @@ slicer-test_opengl: slicer-test/opengl/Dockerfile
 slicer-test_opengl.push: slicer-test_opengl
 	$(DOCKER) push $(ORG)/$(subst _,:,$@)
 
-.PHONY: build-all $(ALL_IMAGES) slicer-build slicer-dependencies slicer-test %.push push-all slicer-test_opengl
+.PHONY: build-all $(ALL_IMAGES) slicer-build slicer-dependencies slicer-test $(addsuffix .push,$(ALL_IMAGES)) push-all slicer-test_opengl
