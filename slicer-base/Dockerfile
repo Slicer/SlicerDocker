@@ -22,8 +22,7 @@ RUN \
     mesa-libOSMesa-devel \
     mesa-libGL-devel \
     mesa-libGLU-devel \
-    ncurses \
-    vim \
+    subversion \
   && \
   #
   # This will download, then build zlib and openssl in the current folder
