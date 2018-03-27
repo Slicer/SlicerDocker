@@ -157,12 +157,11 @@ RUN svn checkout -r ${SLICER_VERSION} http://svn.slicer.org/Slicer4/trunk Slicer
 
 
 # Build-time metadata as defined at http://label-schema.org
-ARG BUILD_DATE
+# BUILD_DATE is omitted to avoid unneeded rebuild
 ARG IMAGE
 ARG VCS_REF
 ARG VCS_URL
-LABEL org.label-schema.build-date=$BUILD_DATE \
-      org.label-schema.name=$IMAGE \
+LABEL org.label-schema.name=$IMAGE \
       org.label-schema.description="Base image for slicer/slicer-builds-deps and slicer/slicer-build" \
       org.label-schema.url="http://www.slicer.org" \
       org.label-schema.vcs-ref=$VCS_REF \
