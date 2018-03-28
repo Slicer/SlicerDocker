@@ -1,4 +1,4 @@
-FROM slicer/buildenv-qt4-centos5:latest
+FROM slicer/buildenv-qt5-centos7:latest
 
 # Slicer master 2018-03-27
 ENV SLICER_VERSION 27111
@@ -20,6 +20,7 @@ RUN \
   cmake \
     -G Ninja \
     -DCMAKE_BUILD_TYPE:STRING=MinSizeRel \
+    -DQt5_DIR:PATH=${Qt5_DIR} \
     -DSlicer_BUILD_ITKPython:BOOL=OFF \
     -DSlicer_INSTALL_ITKPython:BOOL=OFF \
       /usr/src/Slicer && \
