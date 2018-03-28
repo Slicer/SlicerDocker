@@ -1,7 +1,7 @@
 FROM slicer/buildenv-qt4-centos5:latest
 
-# Slicer master 2018-03-25
-ENV SLICER_VERSION 27106
+# Slicer master 2018-03-27
+ENV SLICER_VERSION 27111
 
 ENV PATH=/usr/src/install-prefix/bin:${PATH}
 
