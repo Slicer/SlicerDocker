@@ -42,7 +42,7 @@ build =                                                      \
 		$(BUILD_ARG_BUILD_DATE)                                  \
 		$(DIR);                                                  \
 	CURRENT_IMAGEID=$$($(DOCKER) images -q $(ORG)/$(REPO):$(TAG)) &&  \
-	if [ -n "$(IMAGEID)" ] && [ "$(IMAGEID)" != "$$CURRENT_IMAGEID" ]; then $(DOCKER) rmi "$(IMAGEID)"; fi
+	if [ -n "$(IMAGEID)" ] && [ "$(IMAGEID)" != "$$CURRENT_IMAGEID" ]; then $(DOCKER) rmi "$(IMAGEID)" || true; fi
 
 #
 # Rules
