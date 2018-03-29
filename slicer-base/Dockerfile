@@ -19,7 +19,7 @@ RUN \
   cd /usr/src/Slicer-build && \
   cmake \
     -G Ninja \
-    -DCMAKE_BUILD_TYPE:STRING=MinSizeRel \
+    -DCMAKE_BUILD_TYPE:STRING=Release \
     -DQt5_DIR:PATH=${Qt5_DIR} \
     -DSlicer_BUILD_ITKPython:BOOL=OFF \
     -DSlicer_INSTALL_ITKPython:BOOL=OFF \
