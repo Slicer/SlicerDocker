@@ -18,8 +18,6 @@ RUN \
   find lib -name '*.a' -delete && \
   rm -rf _CPack_Packages
 
-VOLUME /usr/src/Slicer-build
-
 WORKDIR /usr/src/Slicer-build/Slicer-build
 
 CMD bash
