@@ -95,8 +95,6 @@ RUN \
   rm -rf CTK-build/PythonQt/generated* && \
   rm -rf /usr/src/Slicer
 
-VOLUME /usr/src/Slicer
-
 WORKDIR /usr/src/Slicer-build
 
 # Build-time metadata as defined at http://label-schema.org
