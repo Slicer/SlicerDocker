@@ -3,8 +3,6 @@ FROM slicer/buildenv-qt5-centos7:latest
 # Slicer master 2018-03-27
 ENV SLICER_VERSION 27111
 
-ENV PATH=/usr/src/install-prefix/bin:${PATH}
-
 RUN \
   #
   # Download sources
@@ -53,7 +51,6 @@ RUN \
     echo "cmake --build /usr/src/Slicer-build/Slicer-build -- \$BUILD_TOOL_FLAGS" >> BuildSlicer.sh && \
     echo "cmake --build /usr/src/Slicer-build/Slicer-build --target package -- \$BUILD_TOOL_FLAGS | tee /usr/src/Slicer-build/Slicer-build/PACKAGES.txt" >> BuildSlicer.sh && \
     echo "cat /usr/src/Slicer-build/Slicer-build/PACKAGES.txt | gawk 'match(\$0, /CPack: - package: (.*) generated/, a) {print a[1]}' > /usr/src/Slicer-build/Slicer-build/PACKAGE_FILE.txt" >> BuildSlicer.sh && \
-    echo "tar -C /usr/src/install-prefix -xzf \$(head -n1 /usr/src/Slicer-build/Slicer-build/PACKAGE_FILE.txt)" >> BuildSlicer.sh && \
     chmod +x BuildSlicer.sh && \
     rm xx01 xx01-no-slicer-build && \
   #

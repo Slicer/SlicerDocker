@@ -19,7 +19,6 @@ RUN \
   rm -rf _CPack_Packages
 
 VOLUME /usr/src/Slicer-build
-VOLUME /usr/src/install-prefix
 
 WORKDIR /usr/src/Slicer-build/Slicer-build
 
