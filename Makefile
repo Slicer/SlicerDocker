@@ -9,12 +9,11 @@ DOCKER = docker
 # Docker organization to pull the images from
 ORG = slicer
 
-#
-# Convention
-#
+# Images
+ALL_IMAGES = slicer-base slicer-build slicer-dependencies slicer-test
 
 #
-# Name of target: The name is expected to have the following form: imagename[_imagetag]
+# Name of images: The name is expected to have the following form: imagename[_imagetag]
 #                 where:
 #
 #                   * imagename and imagetag are alphanumerical strings that can contain dash
@@ -25,31 +24,27 @@ ORG = slicer
 #                   * directory "imagename" or "imagename/imagetag" is expected to contain a Dockerfile
 #
 
-# Functions
-#
 
-build =                                                      \
-	$(eval REPO := $(1))                                       \
-	$(eval TAG := $(2))                                        \
-	$(eval DIR := $(3))                                        \
-	$(eval IMAGEID := $(shell $(DOCKER) images -q $(ORG)/$(REPO):$(TAG))) \
-	$(eval BUILD_DATE := $(shell date -u +"%Y-%m-%dT%H:%M:%SZ")) \
-	$(eval BUILD_ARG_BUILD_DATE := $(shell if [ $(REPO) != "slicer-base" ]; then echo "--build-arg BUILD_DATE=$(BUILD_DATE)"; fi)) \
+# Functions
+define build
+	$(eval REPO := $(1))
+	$(eval TAG := $(2))
+	$(eval DIR := $(3))
+	$(eval IMAGEID := $(shell $(DOCKER) images -q $(ORG)/$(REPO):$(TAG)))
+	$(eval BUILD_DATE := $(shell date -u +"%Y-%m-%dT%H:%M:%SZ"))
+	$(eval BUILD_ARG_BUILD_DATE := $(shell if [ $(REPO) != "slicer-base" ]; then echo "--build-arg BUILD_DATE=$(BUILD_DATE)"; fi))
 	$(DOCKER) build --pull -t $(ORG)/$(REPO):$(TAG)            \
 		--build-arg IMAGE=$(ORG)/$(REPO):$(TAG)                  \
 		--build-arg VCS_REF=`git rev-parse --short HEAD`         \
 		--build-arg VCS_URL=`git config --get remote.origin.url` \
 		$(BUILD_ARG_BUILD_DATE)                                  \
-		$(DIR);                                                  \
+		$(DIR);
 	CURRENT_IMAGEID=$$($(DOCKER) images -q $(ORG)/$(REPO):$(TAG)) &&  \
 	if [ -n "$(IMAGEID)" ] && [ "$(IMAGEID)" != "$$CURRENT_IMAGEID" ]; then $(DOCKER) rmi "$(IMAGEID)" || true; fi
+endef
 
-#
+
 # Rules
-#
-
-ALL_IMAGES = slicer-base slicer-build slicer-dependencies slicer-test
-
 build-all: $(ALL_IMAGES)
 
 $(ALL_IMAGES): %: %/Dockerfile
