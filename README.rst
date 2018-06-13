@@ -8,11 +8,16 @@ Images
   :target: https://microbadger.com/images/slicer/slicer-base
 
 slicer/slicer-base
-  |slicer-base-images| The base image for *slicer/slicer-dependencies*
-  and *slicer/slicer-build*.
+  |slicer-base-images| The image used to build Slicer on CircleCI each time a Pull Request is submitted. For more details, see `.circleci/config.yml <https://github.com/Slicer/Slicer/blob/master/.circleci/config.yml>`_ 
 
 .. |slicer-dependencies-images| image:: https://images.microbadger.com/badges/image/slicer/slicer-dependencies.svg
   :target: https://microbadger.com/images/slicer/slicer-dependencies
+
+
+Unmaintained Images
+-------------------
+
+In the process of improving the Slicer infrastructure, these images are not updated anymore. Only the ``slicer/slicer-base`` image is used for `continuous integration with CircleCI <https://github.com/Slicer/Slicer/blob/master/.circleci/config.yml>`_.
 
 slicer/slicer-dependencies
   |slicer-dependencies-images| An image containing all the dependencies to
