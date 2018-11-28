@@ -85,13 +85,13 @@ RUN \
     zlib zlib-build \
   && \
   # Remove ITKPython wrapping
-  mkdir -p ITKv4-build/Wrapping && find ITKv4-build/Wrapping -name '*.cpp' -delete -o -name '*.xml' -delete && \
-  rm -rf ITKv4-build/Wrapping/Generators/castxml* && \
+  mkdir -p ITK-build/Wrapping && find ITK-build/Wrapping -name '*.cpp' -delete -o -name '*.xml' -delete && \
+  rm -rf ITK-build/Wrapping/Generators/castxml* && \
   # Remove source files
   find CTK -name '*.cpp' -delete && \
   find DCMTK -name '*.cc' -delete && \
-  find ITKv4 -name '*.cxx' -delete -o -name '*.cpp' -delete && \
-  find VTKv9 -name '*.cxx' -delete -o -name '*.cpp' -delete && \
+  find ITK -name '*.cxx' -delete -o -name '*.cpp' -delete && \
+  find VTK -name '*.cxx' -delete -o -name '*.cpp' -delete && \
   rm -rf CTK-build/PythonQt/generated* && \
   rm -rf /usr/src/Slicer
 
