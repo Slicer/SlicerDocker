@@ -7,24 +7,24 @@ import subprocess
 #
 # Usage:
 #
-#   $ ./update.py svn_revision svn_revision_date
+#   $ ./update.py git_sha git_sha_date
 #
 # Example:
 #
-#   $ ./update.py 25199 2016-06-19
+#   $ ./update.py b727d9a09 2020-04-14
 #
 
-def update_dockerfile(dockerfile, svn_revison, svn_revision_date):
+def update_dockerfile(dockerfile, git_sha, git_sha_date):
     lines = []
     with open(dockerfile) as f:
         for line in f:
             if 'ENV SLICER_VERSION' in line:
-                current_svn_revision = line.strip().split(' ')[2]
-                if current_svn_revision == svn_revison:
+                current_git_sha = line.strip().split(' ')[2]
+                if current_git_sha == git_sha:
                     return False
-                line = "ENV SLICER_VERSION %s\n" % svn_revison
+                line = "ENV SLICER_VERSION %s\n" % git_sha
             if '# Slicer master ' in line:
-                line = "# Slicer master %s\n" % svn_revision_date
+                line = "# Slicer master %s\n" % git_sha_date
             lines.append(line)
     with open(dockerfile, 'w') as f:
         f.writelines(lines)
@@ -38,16 +38,16 @@ def _run(cmd):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description='Update "slicer-base/Dockerfile" and git commit.')
-    parser.add_argument("svn_revision")
-    parser.add_argument("svn_revision_date")
+    parser.add_argument("git_sha")
+    parser.add_argument("git_sha_date")
     args = parser.parse_args()
 
     slicer_build_base_dir = os.path.dirname(__file__)
     dockerfile = os.path.join(slicer_build_base_dir, "Dockerfile")
 
-    if update_dockerfile(dockerfile, args.svn_revision, args.svn_revision_date):
+    if update_dockerfile(dockerfile, args.git_sha, args.git_sha_date):
       _run(['git', 'add', dockerfile])
-      message = 'ENH: slicer-base: Update to Slicer r%s from %s' % (args.svn_revision, args.svn_revision_date)
+      message = 'ENH: slicer-base: Update to Slicer/Slicer@%s from %s' % (args.git_sha, args.git_sha_date)
       _run(['git', 'commit', '-m', message])
     else:
       print('"slicer-base/Dockerfile" already updated')

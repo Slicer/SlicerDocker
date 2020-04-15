@@ -36,14 +36,14 @@ echo "slicer_dir:$slicer_dir"
 
 pushd $slicer_dir > /dev/null 2>&1
 
-svn_revision=$(git svn info | grep "Last Changed Rev" | sed -e 's/Last Changed Rev: //g')
-echo "svn_revision: $svn_revision"
+git_sha=$(git log -1 --format="%h")
+echo "git_sha: $git_sha"
 
-svn_revision_date=$(git svn info | grep "Last Changed Date" | sed -e 's/Last Changed Date: //g' | cut -d" " -f1)
-echo "svn_revision_date: $svn_revision_date"
+git_sha_date=$(git log -1 --date=format:"%Y-%m-%d" --format="%cd")
+echo "git_sha_date: $git_sha_date"
 
 popd > /dev/null 2>&1
 echo ""
 
-python $script_dir/update.py $svn_revision $svn_revision_date
+python $script_dir/update.py $git_sha $git_sha_date
 

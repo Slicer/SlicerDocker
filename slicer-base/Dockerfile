@@ -8,8 +8,9 @@ RUN \
   # Download sources
   #
   cd /usr/src && \
-  svn checkout -r ${SLICER_VERSION} http://svn.slicer.org/Slicer4/trunk Slicer && \
-  rm -rf /usr/src/Slicer/.svn && \
+  git clone git://github.com/Slicer/Slicer && \
+  cd Slicer && \
+  git reset --hard ${SLICER_VERSION} && \
   #
   # Configure
   #
