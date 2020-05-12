@@ -53,6 +53,19 @@ $slicer_executable \
   --disable-scripted-loadable-modules \
   -c "slicer.modules.jupyterkernel.installSlicerKernel('/usr/local/bin/')"
 
+# Fix ImportError: ...python3.6/site-packages/PIL/_imaging.cpython-36m-x86_64-linux-gnu.so: ELF load command address/offset not properly aligned
+# by forcing reinstalling pillow (a properly maintained fork of PIL).
+$slicer_executable \
+  --disable-cli-modules \
+  --disable-scripted-loadable-modules \
+  -c "pip_install('--upgrade pillow --force-reinstall'); pip_install('ipywidgets pandas ipyevents ipycanvas')"
+
+# Install packages needed by SlicerNotebookLib
+$slicer_executable \
+  --disable-cli-modules \
+  --disable-scripted-loadable-modules \
+  -c "pip_install('ipywidgets pandas ipyevents ipycanvas')"
+
 ################################################################################
 # Shutdown headless environment
 kill -9 $XORG_PID
