@@ -4,6 +4,12 @@ Docker images for 3D Slicer
 Images
 ------
 
+.. |slicer-notebook-images| image:: https://images.microbadger.com/badges/image/slicer/slicer-notebook.svg
+  :target: https://microbadger.com/images/slicer/slicer-notebook
+
+slicer/slicer-notebook
+  |slicer-notebook-images| Ready-to-run Docker images containing Slicer and Jupyter.
+
 .. |slicer-base-images| image:: https://images.microbadger.com/badges/image/slicer/slicer-base.svg
   :target: https://microbadger.com/images/slicer/slicer-base
 

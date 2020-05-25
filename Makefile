@@ -10,7 +10,7 @@ DOCKER = docker
 ORG = slicer
 
 # Images
-ALL_IMAGES = slicer-base slicer-build slicer-dependencies slicer-test
+ALL_IMAGES = slicer-base slicer-build slicer-dependencies slicer-notebook slicer-test
 
 #
 # Name of images: The name is expected to have the following form: imagename[_imagetag]
