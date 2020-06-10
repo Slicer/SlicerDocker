@@ -8,7 +8,7 @@ Images
   :target: https://microbadger.com/images/slicer/slicer-notebook
 
 slicer/slicer-notebook
-  |slicer-notebook-images| Ready-to-run Docker images containing Slicer and Jupyter. 
+  |slicer-notebook-images| Ready-to-run Docker images containing Slicer and Jupyter. See more information below.
 
 .. |slicer-base-images| image:: https://images.microbadger.com/badges/image/slicer/slicer-base.svg
   :target: https://microbadger.com/images/slicer/slicer-base
@@ -18,10 +18,12 @@ slicer/slicer-base
 
 Information about unmaintained images are available `here <unmaintained-images.rst>`_.
 
-slicer-notebook
-===============
+Usage of slicer-notebook image
+==============================
 
-Linux::
+1. Start a Jupyter server by running this command:
+
+Linux or MacOS::
 
     docker run -p 8888:8888 -p49053:49053 -v "$PWD":/home/sliceruser/work --rm -ti lassoan/slicer-notebook:2020-05-15-89b6bb5
 
@@ -29,4 +31,4 @@ Windows::
 
     docker run -p 8888:8888 -p49053:49053 -v "%USERPROFILE%":/home/sliceruser/work --rm -ti lassoan/slicer-notebook:2020-05-15-89b6bb5
 
-Then open the link shown at the end of the command-line output (``http://127.0.0.1:8888/?token=...``) in a web browser.
+2. Open the link shown at the end of the command-line output (``http://127.0.0.1:8888/?token=...``) in a web browser.
