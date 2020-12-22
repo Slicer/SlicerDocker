@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+# Launches websockify in Slicer's virtual Python environment
+
+set -e
+cd /home/sliceruser/Slicer/lib/Python/lib/python3.6/site-packages/websockify/
+/home/sliceruser/Slicer/bin/PythonSlicer -m websockify "$@"

@@ -21,50 +21,15 @@ source $script_dir/start-xorg.sh
 echo "XORG_PID [$XORG_PID]"
 
 ################################################################################
-# Get slicer revision
-slicer_revision=$($slicer_executable --disable-modules -c "print(slicer.app.revision)" | head -n1)
-echo "slicer_revision [$slicer_revision]"
+# Set up Slicer extensions
 
-# Lookup extension_id associated with SlicerJupyter
-#extension_id=$(curl -s -X GET \
-#  "https://slicer.kitware.com/midas3/api/json?method=midas.slicerpackages.extension.list&os=linux&arch=amd64&slicer_revision=$slicer_revision&search=SlicerJupyter" \
-#  -H "accept: application/json" | jq ".data[0].extension_id")
-#echo "extension_id [$extension_id]"
-
-# Download and install the extension install
-#$slicer_executable \
-#  --disable-loadable-modules \
-#  --disable-cli-modules \
-#  --disable-scripted-loadable-modules \
-#  -c "slicer.app.extensionsManagerModel().downloadAndInstallExtension('$extension_id')"
-
-# Install the extension install
-extension_archive=$(ls -1 $PWD/$slicer_revision-linux-amd64-SlicerJupyter-*)
-echo "extension_archive [$extension_archive]"
+# Install SlicerJupyter extension
 $slicer_executable \
-  --disable-loadable-modules \
-  --disable-cli-modules \
-  --disable-scripted-loadable-modules \
-  -c "slicer.app.extensionsManagerModel().installExtension('$extension_archive')"
+  -c "em = slicer.app.extensionsManagerModel(); extensionMetaData = em.retrieveExtensionMetadataByName('SlicerJupyter'); url = em.serverUrl().toString()+'/download/item/'+extensionMetaData['item_id']; extensionPackageFilename = slicer.app.temporaryPath+'/'+extensionMetaData['md5']; slicer.util.downloadFile(url, extensionPackageFilename); em.installExtension(extensionPackageFilename)"
 
-# Install kernel
+# Install Jupyter server (in Slicer's Python environment) and Slicer Jupyter kernel
 $slicer_executable \
-  --disable-cli-modules \
-  --disable-scripted-loadable-modules \
-  -c "slicer.modules.jupyterkernel.installSlicerKernel('/usr/local/bin/')"
-
-# Fix ImportError: ...python3.6/site-packages/PIL/_imaging.cpython-36m-x86_64-linux-gnu.so: ELF load command address/offset not properly aligned
-# by forcing reinstalling pillow (a properly maintained fork of PIL).
-$slicer_executable \
-  --disable-cli-modules \
-  --disable-scripted-loadable-modules \
-  -c "pip_install('--upgrade pillow --force-reinstall'); pip_install('ipywidgets pandas ipyevents ipycanvas')"
-
-# Install packages needed by SlicerNotebookLib
-$slicer_executable \
-  --disable-cli-modules \
-  --disable-scripted-loadable-modules \
-  -c "pip_install('ipywidgets pandas ipyevents ipycanvas')"
+  -c "slicer.modules.jupyterkernel.installInternalJupyterServer()"
 
 ################################################################################
 # Shutdown headless environment

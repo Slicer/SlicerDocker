@@ -42,15 +42,7 @@ RUN apt-get install -q -y \
  libglu1 \
  x11vnc \
  awesome \
- python3 python3-pip python3-setuptools \
  jq
-
-################################################################################
-# install jupyter
-RUN pip3 install jupyter
-
-# install ipython widgets required for SlicerNotebookLib
-RUN pip3 install ipywidgets ipycanvas ipyevents
 
 ################################################################################
 # set up user
@@ -68,8 +60,8 @@ WORKDIR ${HOME}
 ################################################################################
 # Download and unpack Slicer
 
-ARG SLICER_ARCHIVE=Slicer-4.11.0-2020-05-14-linux-amd64
-ARG SLICER_DOWNLOAD_URL=http://slicer.kitware.com/midas3/api/rest?method=midas.bitstream.download&name=Slicer-4.11.0-2020-05-14-linux-amd64.tar.gz&checksum=971ddac26fe28a962e6838bab0f455d2
+ARG SLICER_ARCHIVE=Slicer-4.13.0-2020-12-20-linux-amd64
+ARG SLICER_DOWNLOAD_URL=http://slicer.kitware.com/midas3/api/rest?method=midas.bitstream.download&name=Slicer-4.13.0-2020-12-20-linux-amd64.tar.gz&checksum=eeb9ba596f3d5ff20265e7d9de9392fe
 
 # Use local package:
 #ADD $SLICER_ARCHIVE.tar.gz ${HOME}/
@@ -79,6 +71,8 @@ RUN curl -OJL "$SLICER_DOWNLOAD_URL" && \
     tar xzf $SLICER_ARCHIVE.tar.gz && \
     rm $SLICER_ARCHIVE.tar.gz
 
+RUN mv $SLICER_ARCHIVE Slicer
+
 ################################################################################
 # these go after installs to avoid trivial invalidation
 ENV VNCPORT=49053
@@ -87,64 +81,73 @@ ENV DISPLAY=:10
 
 COPY xorg.conf .
 
-################################################################################
-# mybinder requirement
-RUN chown ${NB_USER} ${HOME} ${HOME}/Slicer-*
-
-################################################################################
-# Set up remote desktop access
 RUN apt-get -y -q install git
 
-RUN pip3 install --upgrade websockify
+# Prevent git error:
+#   fatal: unable to access 'https://github.com/novnc/websockify/': server certificate verification failed. CAfile: none CRLfile: none
+RUN apt-get install --reinstall ca-certificates
 
-# Websockify needs rebind.so but for some reason it is not built and
-# installed automatically, so we do it manually here
+# For building components, such as websockify
 RUN apt-get -y install build-essential
+
+################################################################################
+# Set up remote desktop access - step 1/2
+
+# Build rebind.so (required by websockify)
 RUN mkdir src && \
     cd src && \
     git clone https://github.com/novnc/websockify websockify && \
     cd websockify  && \
     make && \
-    cp rebind.so /usr/local/lib/ && \
+    cp rebind.so /usr/lib/ && \
     cd .. && \
-    rm websockify -rf
-# TODO: remove build-essential?
+    rm -rf websockify && \
+    cd .. && \
+    rmdir src
 
-RUN pip3 install -e \
-  git+https://github.com/lassoan/jupyter-desktop-server#egg=jupyter-desktop-server \
-  git+https://github.com/jupyterhub/jupyter-server-proxy#egg=jupyter-server-proxy
-
+# Set up launcher for websockify
+# (websockify must run in  Slicer's Python environment)
+COPY websockify ./Slicer/bin/
+RUN chmod +x ${HOME}/Slicer/bin/websockify
 
 ################################################################################
 # Need to run Slicer as non-root because
 # - mybinder requirement
 # - chrome sandbox inside QtWebEngine does not support root.
+RUN chown ${NB_USER} ${HOME} ${HOME}/Slicer
 USER ${NB_USER}
 
 RUN mkdir /tmp/runtime-sliceruser
 ENV XDG_RUNTIME_DIR=/tmp/runtime-sliceruser
 
 ################################################################################
-# Set up SlicerJupyter
+# Set up remote desktop access - step 2/2
 
-ARG SLICER_JUPYTER_ARCHIVE=29057-linux-amd64-SlicerJupyter-git6993275-2020-05-14.tar.gz
-ARG SLICER_JUPYTER_DOWNLOAD_URL=http://slicer.kitware.com/midas3/api/rest?method=midas.bitstream.download&name=29057-linux-amd64-SlicerJupyter-git6993275-2020-05-14.tar.gz&checksum=2e06dc51ecebd9345cea80953b5a9d5b
+# Install websockify
+RUN /home/sliceruser/Slicer/bin/PythonSlicer -m pip install --upgrade websockify
 
-RUN curl -OJL "$SLICER_JUPYTER_DOWNLOAD_URL"
-#COPY $SLICER_JUPYTER_ARCHIVE .
+# Copy rebind.so into websockify folder so websockify can find it
+RUN cp /usr/lib/rebind.so /home/sliceruser/Slicer/lib/Python/lib/python3.6/site-packages/websockify/
+
+# Install Jupyter desktop (configures noVNC connection adds a new "Desktop" option in New menu in Jupyter)
+RUN /home/sliceruser/Slicer/bin/PythonSlicer -m pip install -e \
+  git+https://github.com/lassoan/jupyter-desktop-server#egg=jupyter-desktop-server \
+  git+https://github.com/jupyterhub/jupyter-server-proxy#egg=jupyter-server-proxy
+
+################################################################################
+# Install Slicer extensions
 
 COPY start-xorg.sh .
 COPY install.sh .
-RUN ./install.sh ${HOME}/$SLICER_ARCHIVE/Slicer
-
-RUN rm $SLICER_JUPYTER_ARCHIVE
+RUN ./install.sh ${HOME}/Slicer/Slicer
+RUN rm ${HOME}/install.sh
 
 ################################################################################
 EXPOSE $VNCPORT $JUPYTERPORT
 COPY run.sh .
 ENTRYPOINT ["/home/sliceruser/run.sh"]
 
-CMD ["sh", "-c", "jupyter notebook --port=$JUPYTERPORT --ip=0.0.0.0 --no-browser"]
+CMD ["sh", "-c", "./Slicer/bin/PythonSlicer -m jupyter notebook --port=$JUPYTERPORT --ip=0.0.0.0 --no-browser"]
 
 ################################################################################
 # Install Slicer application startup script
