@@ -69,9 +69,8 @@ ARG SLICER_DOWNLOAD_URL=http://slicer.kitware.com/midas3/api/rest?method=midas.b
 # Download package:
 RUN curl -OJL "$SLICER_DOWNLOAD_URL" && \
     tar xzf $SLICER_ARCHIVE.tar.gz && \
-    rm $SLICER_ARCHIVE.tar.gz
-
-RUN mv $SLICER_ARCHIVE Slicer
+    rm $SLICER_ARCHIVE.tar.gz && \
+    mv $SLICER_ARCHIVE Slicer
 
 ################################################################################
 # these go after installs to avoid trivial invalidation
@@ -81,29 +80,28 @@ ENV DISPLAY=:10
 
 COPY xorg.conf .
 
-RUN apt-get -y -q install git
-
 # Prevent git error:
 #   fatal: unable to access 'https://github.com/novnc/websockify/': server certificate verification failed. CAfile: none CRLfile: none
-RUN apt-get install --reinstall ca-certificates
-
-# For building components, such as websockify
-RUN apt-get -y install build-essential
+RUN apt-get -y -q install git && \
+    apt-get install --reinstall ca-certificates
 
 ################################################################################
 # Set up remote desktop access - step 1/2
 
 # Build rebind.so (required by websockify)
-RUN mkdir src && \
+RUN set -x && \
+    apt-get install -y build-essential --no-install-recommends && \
+    mkdir src && \
     cd src && \
     git clone https://github.com/novnc/websockify websockify && \
-    cd websockify  && \
+    cd websockify && \
     make && \
     cp rebind.so /usr/lib/ && \
     cd .. && \
     rm -rf websockify && \
     cd .. && \
-    rmdir src
+    rmdir src && \
+    apt-get purge -y --auto-remove build-essential
 
 # Set up launcher for websockify
 # (websockify must run in  Slicer's Python environment)
@@ -124,23 +122,21 @@ ENV XDG_RUNTIME_DIR=/tmp/runtime-sliceruser
 # Set up remote desktop access - step 2/2
 
 # Install websockify
-RUN /home/sliceruser/Slicer/bin/PythonSlicer -m pip install --upgrade websockify
-
 # Copy rebind.so into websockify folder so websockify can find it
-RUN cp /usr/lib/rebind.so /home/sliceruser/Slicer/lib/Python/lib/python3.6/site-packages/websockify/
-
 # Install Jupyter desktop (configures noVNC connection adds a new "Desktop" option in New menu in Jupyter)
-RUN /home/sliceruser/Slicer/bin/PythonSlicer -m pip install -e \
-  git+https://github.com/lassoan/jupyter-desktop-server#egg=jupyter-desktop-server \
-  git+https://github.com/jupyterhub/jupyter-server-proxy#egg=jupyter-server-proxy
+RUN /home/sliceruser/Slicer/bin/PythonSlicer -m pip install --upgrade websockify && \
+    cp /usr/lib/rebind.so /home/sliceruser/Slicer/lib/Python/lib/python3.6/site-packages/websockify/ && \
+    /home/sliceruser/Slicer/bin/PythonSlicer -m pip install -e \
+        git+https://github.com/lassoan/jupyter-desktop-server#egg=jupyter-desktop-server \
+        git+https://github.com/jupyterhub/jupyter-server-proxy#egg=jupyter-server-proxy
 
 ################################################################################
 # Install Slicer extensions
 
 COPY start-xorg.sh .
 COPY install.sh .
-RUN ./install.sh ${HOME}/Slicer/Slicer
-RUN rm ${HOME}/install.sh
+RUN ./install.sh ${HOME}/Slicer/Slicer && \
+    rm ${HOME}/install.sh
 
 ################################################################################
 EXPOSE $VNCPORT $JUPYTERPORT

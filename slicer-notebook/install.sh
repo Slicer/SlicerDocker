@@ -23,9 +23,21 @@ echo "XORG_PID [$XORG_PID]"
 ################################################################################
 # Set up Slicer extensions
 
+# Set default application settings:
+# - use CPU volume rendering (it is better optimized for software rendering)
+$slicer_executable \
+  -c "slicer.app.settings().setValue('VolumeRendering/RenderingMethod','vtkMRMLCPURayCastVolumeRenderingDisplayNode'); \
+  slicer.app.settings().setValue('Markups/GlyphScale', 3); \
+  slicer.app.settings().setValue('Markups/UseGlyphScale', True)"
+
 # Install SlicerJupyter extension
 $slicer_executable \
-  -c "em = slicer.app.extensionsManagerModel(); extensionMetaData = em.retrieveExtensionMetadataByName('SlicerJupyter'); url = em.serverUrl().toString()+'/download/item/'+extensionMetaData['item_id']; extensionPackageFilename = slicer.app.temporaryPath+'/'+extensionMetaData['md5']; slicer.util.downloadFile(url, extensionPackageFilename); em.installExtension(extensionPackageFilename)"
+  -c "em = slicer.app.extensionsManagerModel(); \
+  extensionMetaData = em.retrieveExtensionMetadataByName('SlicerJupyter'); \
+  url = em.serverUrl().toString()+'/download/item/'+extensionMetaData['item_id']; \
+  extensionPackageFilename = slicer.app.temporaryPath+'/'+extensionMetaData['md5']; \
+  slicer.util.downloadFile(url, extensionPackageFilename); \
+  em.installExtension(extensionPackageFilename)"
 
 # Install Jupyter server (in Slicer's Python environment) and Slicer Jupyter kernel
 $slicer_executable \
