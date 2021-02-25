@@ -124,11 +124,16 @@ ENV XDG_RUNTIME_DIR=/tmp/runtime-sliceruser
 # Install websockify
 # Copy rebind.so into websockify folder so websockify can find it
 # Install Jupyter desktop (configures noVNC connection adds a new "Desktop" option in New menu in Jupyter)
+
+# First upgrade pip
+RUN /home/sliceruser/Slicer/bin/PythonSlicer -m pip install --upgrade pip
+
+# Now install websockify and jupyter-server-proxy (fixed at tag v1.6.0)
 RUN /home/sliceruser/Slicer/bin/PythonSlicer -m pip install --upgrade websockify && \
     cp /usr/lib/rebind.so /home/sliceruser/Slicer/lib/Python/lib/python3.6/site-packages/websockify/ && \
     /home/sliceruser/Slicer/bin/PythonSlicer -m pip install -e \
         git+https://github.com/lassoan/jupyter-desktop-server#egg=jupyter-desktop-server \
-        git+https://github.com/jupyterhub/jupyter-server-proxy#egg=jupyter-server-proxy
+        git+https://github.com/jupyterhub/jupyter-server-proxy@v1.6.0#egg=jupyter-server-proxy
 
 ################################################################################
 # Install Slicer extensions
