@@ -62,15 +62,15 @@ WORKDIR ${HOME}
 ################################################################################
 # Download and unpack Slicer
 
-#ARG SLICER_ARCHIVE=Slicer-4.13.0-2020-12-20-linux-amd64
-#ARG SLICER_DOWNLOAD_URL=http://slicer.kitware.com/midas3/api/rest?method=midas.bitstream.download&name=Slicer-4.13.0-2020-12-20-linux-amd64.tar.gz&checksum=eeb9ba596f3d5ff20265e7d9de9392fe
-
+# Current preview release
 #ARG SLICER_ARCHIVE=Slicer-4.13.0-2021-10-06-linux-amd64
-#ARG SLICER_DOWNLOAD_URL=https://slicer-packages.kitware.com/api/v1/item/615e75f7342a877cb3ccd8fa/download
+#ARG SLICER_DOWNLOAD_URL=https://download.slicer.org/bitstream/615e75f7342a877cb3ccd8fa
 
+# Current stable release
 #ARG SLICER_ARCHIVE=Slicer-4.11.20210226-linux-amd64
 #ARG SLICER_DOWNLOAD_URL=https://download.slicer.org/bitstream/60add706ae4540bf6a89bf98
 
+# Previous stable release
 ARG SLICER_ARCHIVE=Slicer-4.11.20200930-linux-amd64
 ARG SLICER_DOWNLOAD_URL=https://download.slicer.org/bitstream/60add70fae4540bf6a89bfb4
 
