@@ -42,7 +42,9 @@ RUN apt-get install -q -y \
  libglu1 \
  x11vnc \
  awesome \
- jq
+ jq \
+ git && \
+ apt-get install -q -y --reinstall ca-certificates
 
 ################################################################################
 # set up user
@@ -60,8 +62,11 @@ WORKDIR ${HOME}
 ################################################################################
 # Download and unpack Slicer
 
-ARG SLICER_ARCHIVE=Slicer-4.13.0-2020-12-20-linux-amd64
-ARG SLICER_DOWNLOAD_URL=http://slicer.kitware.com/midas3/api/rest?method=midas.bitstream.download&name=Slicer-4.13.0-2020-12-20-linux-amd64.tar.gz&checksum=eeb9ba596f3d5ff20265e7d9de9392fe
+#ARG SLICER_ARCHIVE=Slicer-4.13.0-2020-12-20-linux-amd64
+#ARG SLICER_DOWNLOAD_URL=http://slicer.kitware.com/midas3/api/rest?method=midas.bitstream.download&name=Slicer-4.13.0-2020-12-20-linux-amd64.tar.gz&checksum=eeb9ba596f3d5ff20265e7d9de9392fe
+
+ARG SLICER_ARCHIVE=Slicer-4.13.0-2021-10-06-linux-amd64
+ARG SLICER_DOWNLOAD_URL=https://slicer-packages.kitware.com/api/v1/item/615e75f7342a877cb3ccd8fa/download
 
 # Use local package:
 #ADD $SLICER_ARCHIVE.tar.gz ${HOME}/
@@ -82,8 +87,8 @@ COPY xorg.conf .
 
 # Prevent git error:
 #   fatal: unable to access 'https://github.com/novnc/websockify/': server certificate verification failed. CAfile: none CRLfile: none
-RUN apt-get -y -q install git && \
-    apt-get install --reinstall ca-certificates
+#RUN apt-get -y -q install git && \
+#    apt-get install --reinstall ca-certificates
 
 ################################################################################
 # Set up remote desktop access - step 1/2
