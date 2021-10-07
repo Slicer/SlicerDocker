@@ -68,15 +68,18 @@ WORKDIR ${HOME}
 #ARG SLICER_ARCHIVE=Slicer-4.13.0-2021-10-06-linux-amd64
 #ARG SLICER_DOWNLOAD_URL=https://slicer-packages.kitware.com/api/v1/item/615e75f7342a877cb3ccd8fa/download
 
-ARG SLICER_ARCHIVE=Slicer-4.11.20210226-linux-amd64
-ARG SLICER_DOWNLOAD_URL=https://download.slicer.org/bitstream/60add706ae4540bf6a89bf98
+#ARG SLICER_ARCHIVE=Slicer-4.11.20210226-linux-amd64
+#ARG SLICER_DOWNLOAD_URL=https://download.slicer.org/bitstream/60add706ae4540bf6a89bf98
+
+ARG SLICER_ARCHIVE=Slicer-4.11.20200930-linux-amd64
+ARG SLICER_DOWNLOAD_URL=https://download.slicer.org/bitstream/60add70fae4540bf6a89bfb4
 
 
 # Use local package:
 #ADD $SLICER_ARCHIVE.tar.gz ${HOME}/
 
 # Download package:
-RUN curl -OJL "$SLICER_DOWNLOAD_URL" && \
+RUN curl -OJL "$SLICER_DOWNLOAD_URL" -o $SLICER_ARCHIVE.tar.gz && \
     tar xzf $SLICER_ARCHIVE.tar.gz && \
     rm $SLICER_ARCHIVE.tar.gz && \
     mv $SLICER_ARCHIVE Slicer

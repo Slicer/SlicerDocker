@@ -41,7 +41,7 @@ $slicer_executable \
   print(extensionMetaData); \
   itemId = extensionMetaData['item_id']; \
   url = f\"{em.serverUrl().toString()}/download?items={itemId}\"; \
-  print(f\"itemId: {itemdId} url: {url}\"); \
+  print(f\"itemId: {itemId} url: {url}\"); \
   extensionPackageFilename = slicer.app.temporaryPath+'/'+itemId; \
   slicer.util.downloadFile(url, extensionPackageFilename); \
   em.installExtension(extensionPackageFilename)"
