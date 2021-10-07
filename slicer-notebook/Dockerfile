@@ -65,8 +65,12 @@ WORKDIR ${HOME}
 #ARG SLICER_ARCHIVE=Slicer-4.13.0-2020-12-20-linux-amd64
 #ARG SLICER_DOWNLOAD_URL=http://slicer.kitware.com/midas3/api/rest?method=midas.bitstream.download&name=Slicer-4.13.0-2020-12-20-linux-amd64.tar.gz&checksum=eeb9ba596f3d5ff20265e7d9de9392fe
 
-ARG SLICER_ARCHIVE=Slicer-4.13.0-2021-10-06-linux-amd64
-ARG SLICER_DOWNLOAD_URL=https://slicer-packages.kitware.com/api/v1/item/615e75f7342a877cb3ccd8fa/download
+#ARG SLICER_ARCHIVE=Slicer-4.13.0-2021-10-06-linux-amd64
+#ARG SLICER_DOWNLOAD_URL=https://slicer-packages.kitware.com/api/v1/item/615e75f7342a877cb3ccd8fa/download
+
+ARG SLICER_ARCHIVE=Slicer-4.11.20210226-linux-amd64
+ARG SLICER_DOWNLOAD_URL=https://download.slicer.org/bitstream/60add706ae4540bf6a89bf98
+
 
 # Use local package:
 #ADD $SLICER_ARCHIVE.tar.gz ${HOME}/
@@ -136,6 +140,7 @@ RUN /home/sliceruser/Slicer/bin/PythonSlicer -m pip install --upgrade pip
 # Now install websockify and jupyter-server-proxy (fixed at tag v1.6.0)
 RUN /home/sliceruser/Slicer/bin/PythonSlicer -m pip install --upgrade websockify && \
     cp /usr/lib/rebind.so /home/sliceruser/Slicer/lib/Python/lib/python3.6/site-packages/websockify/ && \
+    /home/sliceruser/Slicer/bin/PythonSlicer -m pip install notebook jupyterhub jupyterlab && \
     /home/sliceruser/Slicer/bin/PythonSlicer -m pip install -e \
         git+https://github.com/lassoan/jupyter-desktop-server#egg=jupyter-desktop-server \
         git+https://github.com/jupyterhub/jupyter-server-proxy@v1.6.0#egg=jupyter-server-proxy
