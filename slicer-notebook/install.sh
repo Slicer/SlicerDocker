@@ -35,12 +35,10 @@ echo "Install SlicerJupyter extension"
 $slicer_executable -c '
 em = slicer.app.extensionsManagerModel()
 extensionMetaData = em.retrieveExtensionMetadataByName("SlicerJupyter")
-print(f"extensionMetaData: {extensionMetaData}")
 if slicer.app.majorVersion*100+slicer.app.minorVersion < 413:
     # Slicer-4.11
     itemId = extensionMetaData["item_id"]
     url = f"{em.serverUrl().toString()}/download?items={itemId}"
-    print(f"itemId: {itemId} url: {url}")
     extensionPackageFilename = f"{slicer.app.temporaryPath}/{itemId}"
     slicer.util.downloadFile(url, extensionPackageFilename)
 else:

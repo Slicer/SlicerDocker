@@ -26,6 +26,7 @@ RUN echo 'APT::Install-Recommends "0" ; APT::Install-Suggests "0" ;' >> /etc/apt
 #   - basic  tools
 #   - slicer dependencies
 #   - awesome window manager
+#   - install ca-certs to prevent - fatal: unable to access 'https://github.com/novnc/websockify/': server certificate verification failed. CAfile: none CRLfile: none
 RUN apt-get install -q -y \
  vim net-tools curl \
  libgl1-mesa-glx \
@@ -63,15 +64,9 @@ WORKDIR ${HOME}
 # Download and unpack Slicer
 
 # Current preview release
-#ARG SLICER_ARCHIVE=Slicer-4.13.0-2021-10-07-linux-amd64
 ARG SLICER_DOWNLOAD_URL=https://download.slicer.org/bitstream/615fc637342a877cb3cd343f
 
-# Current stable release - this currently fails due to mising SlicerJupyter
-#ARG SLICER_ARCHIVE=Slicer-4.11.20210226-linux-amd64
-#ARG SLICER_DOWNLOAD_URL=https://download.slicer.org/bitstream/60add706ae4540bf6a89bf98
-
-# Previous stable release - this works
-#ARG SLICER_ARCHIVE=Slicer-4.11.20200930-linux-amd64
+# Latest working Slicer-4.11 version (SlicerJupyter extension is not available for the more recent Slicer-4.11.20210226 version)
 #ARG SLICER_DOWNLOAD_URL=https://download.slicer.org/bitstream/60add70fae4540bf6a89bfb4
 
 # Use local package:
@@ -87,11 +82,6 @@ ENV JUPYTERPORT=8888
 ENV DISPLAY=:10
 
 COPY xorg.conf .
-
-# Prevent git error:
-#   fatal: unable to access 'https://github.com/novnc/websockify/': server certificate verification failed. CAfile: none CRLfile: none
-#RUN apt-get -y -q install git && \
-#    apt-get install --reinstall ca-certificates
 
 ################################################################################
 # Set up remote desktop access - step 1/2
