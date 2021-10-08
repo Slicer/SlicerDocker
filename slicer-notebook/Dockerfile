@@ -26,6 +26,7 @@ RUN echo 'APT::Install-Recommends "0" ; APT::Install-Suggests "0" ;' >> /etc/apt
 #   - basic  tools
 #   - slicer dependencies
 #   - awesome window manager
+#   - install ca-certs to prevent - fatal: unable to access 'https://github.com/novnc/websockify/': server certificate verification failed. CAfile: none CRLfile: none
 RUN apt-get install -q -y \
  vim net-tools curl \
  libgl1-mesa-glx \
@@ -42,7 +43,9 @@ RUN apt-get install -q -y \
  libglu1 \
  x11vnc \
  awesome \
- jq
+ jq \
+ git && \
+ apt-get install -q -y --reinstall ca-certificates
 
 ################################################################################
 # set up user
@@ -60,17 +63,17 @@ WORKDIR ${HOME}
 ################################################################################
 # Download and unpack Slicer
 
-ARG SLICER_ARCHIVE=Slicer-4.13.0-2020-12-20-linux-amd64
-ARG SLICER_DOWNLOAD_URL=http://slicer.kitware.com/midas3/api/rest?method=midas.bitstream.download&name=Slicer-4.13.0-2020-12-20-linux-amd64.tar.gz&checksum=eeb9ba596f3d5ff20265e7d9de9392fe
+# Current preview release
+ARG SLICER_DOWNLOAD_URL=https://download.slicer.org/bitstream/615fc637342a877cb3cd343f
+
+# Latest working Slicer-4.11 version (SlicerJupyter extension is not available for the more recent Slicer-4.11.20210226 version)
+#ARG SLICER_DOWNLOAD_URL=https://download.slicer.org/bitstream/60add70fae4540bf6a89bfb4
 
 # Use local package:
 #ADD $SLICER_ARCHIVE.tar.gz ${HOME}/
 
 # Download package:
-RUN curl -OJL "$SLICER_DOWNLOAD_URL" && \
-    tar xzf $SLICER_ARCHIVE.tar.gz && \
-    rm $SLICER_ARCHIVE.tar.gz && \
-    mv $SLICER_ARCHIVE Slicer
+RUN curl -JL "$SLICER_DOWNLOAD_URL" | tar xz -C /tmp && mv /tmp/Slicer* Slicer
 
 ################################################################################
 # these go after installs to avoid trivial invalidation
@@ -79,11 +82,6 @@ ENV JUPYTERPORT=8888
 ENV DISPLAY=:10
 
 COPY xorg.conf .
-
-# Prevent git error:
-#   fatal: unable to access 'https://github.com/novnc/websockify/': server certificate verification failed. CAfile: none CRLfile: none
-RUN apt-get -y -q install git && \
-    apt-get install --reinstall ca-certificates
 
 ################################################################################
 # Set up remote desktop access - step 1/2
@@ -131,6 +129,7 @@ RUN /home/sliceruser/Slicer/bin/PythonSlicer -m pip install --upgrade pip
 # Now install websockify and jupyter-server-proxy (fixed at tag v1.6.0)
 RUN /home/sliceruser/Slicer/bin/PythonSlicer -m pip install --upgrade websockify && \
     cp /usr/lib/rebind.so /home/sliceruser/Slicer/lib/Python/lib/python3.6/site-packages/websockify/ && \
+    /home/sliceruser/Slicer/bin/PythonSlicer -m pip install notebook jupyterhub jupyterlab && \
     /home/sliceruser/Slicer/bin/PythonSlicer -m pip install -e \
         git+https://github.com/lassoan/jupyter-desktop-server#egg=jupyter-desktop-server \
         git+https://github.com/jupyterhub/jupyter-server-proxy@v1.6.0#egg=jupyter-server-proxy
