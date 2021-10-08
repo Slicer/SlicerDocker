@@ -63,7 +63,7 @@ WORKDIR ${HOME}
 # Download and unpack Slicer
 
 # Current preview release
-ARG SLICER_ARCHIVE=Slicer-4.13.0-2021-10-06-linux-amd64
+#ARG SLICER_ARCHIVE=Slicer-4.13.0-2021-10-07-linux-amd64
 ARG SLICER_DOWNLOAD_URL=https://download.slicer.org/bitstream/615fc637342a877cb3cd343f
 
 # Current stable release - this currently fails due to mising SlicerJupyter

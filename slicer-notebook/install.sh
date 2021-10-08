@@ -45,10 +45,8 @@ if slicer.app.majorVersion*100+slicer.app.minorVersion < 413:
     slicer.util.downloadFile(url, extensionPackageFilename)
 else:
     # Slicer-4.13
-    #itemId = extensionMetaData["_id"]
-    itemId = "30304-linux-amd64-SlicerJupyter-gitb3fba2d-2021-03-21.tar.gz"
-    url = "https://github.com/Slicer/SlicerJupyter/files/7305919/30304-linux-amd64-SlicerJupyter-gitb3fba2d-2021-03-21.tar.gz"
-    print("Using bespoke build from {url} until https://github.com/Slicer/SlicerJupyter/issues/59 is fixed")
+    itemId = extensionMetaData["_id"]
+    url = f"{em.serverUrl().toString()}/api/v1/item/{itemId}/download"
     extensionPackageFilename = f"{slicer.app.temporaryPath}/{itemId}"
     slicer.util.downloadFile(url, extensionPackageFilename)
 em.installExtension(extensionPackageFilename)
