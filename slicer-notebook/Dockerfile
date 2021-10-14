@@ -21,31 +21,32 @@ RUN echo 'APT::Install-Recommends "0" ; APT::Install-Suggests "0" ;' >> /etc/apt
 
 ################################################################################
 # get packages
-# - update
+# - update (without update, old cached server addresses may be used and apt-get install may fail)
 # - install things
 #   - basic  tools
 #   - slicer dependencies
 #   - awesome window manager
 #   - install ca-certs to prevent - fatal: unable to access 'https://github.com/novnc/websockify/': server certificate verification failed. CAfile: none CRLfile: none
-RUN apt-get install -q -y \
- vim net-tools curl \
- libgl1-mesa-glx \
- xserver-xorg-video-dummy \
- libxrender1 \
- libpulse0 \
- libpulse-mainloop-glib0  \
- libnss3  \
- libxcomposite1 \
- libxcursor1 \
- libfontconfig1 \
- libxrandr2 \
- libasound2 \
- libglu1 \
- x11vnc \
- awesome \
- jq \
- git && \
- apt-get install -q -y --reinstall ca-certificates
+RUN apt-get update -q -y && \
+    apt-get install -q -y \
+        vim net-tools curl \
+        libgl1-mesa-glx \
+        xserver-xorg-video-dummy \
+        libxrender1 \
+        libpulse0 \
+        libpulse-mainloop-glib0  \
+        libnss3  \
+        libxcomposite1 \
+        libxcursor1 \
+        libfontconfig1 \
+        libxrandr2 \
+        libasound2 \
+        libglu1 \
+        x11vnc \
+        awesome \
+        jq \
+        git && \
+        apt-get install -q -y --reinstall ca-certificates
 
 ################################################################################
 # set up user
@@ -64,7 +65,7 @@ WORKDIR ${HOME}
 # Download and unpack Slicer
 
 # Current preview release
-ARG SLICER_DOWNLOAD_URL=https://download.slicer.org/bitstream/615fc637342a877cb3cd343f
+ARG SLICER_DOWNLOAD_URL=https://download.slicer.org/bitstream/6167ae45342a877cb3cfa73a
 
 # Latest working Slicer-4.11 version (SlicerJupyter extension is not available for the more recent Slicer-4.11.20210226 version)
 #ARG SLICER_DOWNLOAD_URL=https://download.slicer.org/bitstream/60add70fae4540bf6a89bfb4
@@ -88,6 +89,7 @@ COPY xorg.conf .
 
 # Build rebind.so (required by websockify)
 RUN set -x && \
+    apt-get update -q -y && \
     apt-get install -y build-essential --no-install-recommends && \
     mkdir src && \
     cd src && \
