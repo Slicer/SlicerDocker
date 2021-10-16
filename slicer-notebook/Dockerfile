@@ -64,8 +64,8 @@ WORKDIR ${HOME}
 ################################################################################
 # Download and unpack Slicer
 
-# Current preview release
-ARG SLICER_DOWNLOAD_URL=https://download.slicer.org/bitstream/6167ae45342a877cb3cfa73a
+# Current preview release (2021-10-15, rev30315)
+ARG SLICER_DOWNLOAD_URL=https://download.slicer.org/bitstream/61690039342a877cb3d01245
 
 # Latest working Slicer-4.11 version (SlicerJupyter extension is not available for the more recent Slicer-4.11.20210226 version)
 #ARG SLICER_DOWNLOAD_URL=https://download.slicer.org/bitstream/60add70fae4540bf6a89bfb4
