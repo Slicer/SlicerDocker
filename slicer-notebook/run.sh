@@ -18,6 +18,10 @@ source $script_dir/start-xorg.sh
 # remote view rather than a complete remote computer.
 #awesome &
 
+################################################################################
+# Set jupyter terminal to bash (better auto-complete, etc. than default sh)
+
+export SHELL=/bin/bash
 
 ################################################################################
 # this needs to be last
