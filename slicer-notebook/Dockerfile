@@ -15,9 +15,9 @@ COPY etc/dpkg/dpkg.cfg.d/01_nodoc /etc/dpkg/dpkg.cfg.d/01_nodoc
 # - reduce apt gravity
 # - and disable caching
 #   from https://blog.sleeplessbeastie.eu/2017/10/02/how-to-disable-the-apt-cache/
+# Note: in each RUN command "apt-get update" must be called before apt-get is used.
 RUN echo 'APT::Install-Recommends "0" ; APT::Install-Suggests "0" ;' >> /etc/apt/apt.conf && \
-    echo 'Dir::Cache::pkgcache "";\nDir::Cache::srcpkgcache "";' | tee /etc/apt/apt.conf.d/00_disable-cache-files && \
-    apt-get update -q -y
+    echo 'Dir::Cache::pkgcache "";\nDir::Cache::srcpkgcache "";' | tee /etc/apt/apt.conf.d/00_disable-cache-files
 
 ################################################################################
 # get packages
@@ -46,7 +46,7 @@ RUN apt-get update -q -y && \
         awesome \
         jq \
         git && \
-        apt-get install -q -y --reinstall ca-certificates
+    apt-get install -q -y --reinstall ca-certificates
 
 ################################################################################
 # set up user
