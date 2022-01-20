@@ -1,7 +1,7 @@
 FROM slicer/buildenv-qt5-centos7:latest
 
-# Slicer master 2022-01-19
-ENV SLICER_VERSION ac37095d6
+# Slicer master 2022-01-20
+ENV SLICER_VERSION e32fa814f
 
 RUN \
   #
