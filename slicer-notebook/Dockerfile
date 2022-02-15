@@ -64,11 +64,8 @@ WORKDIR ${HOME}
 ################################################################################
 # Download and unpack Slicer
 
-# Current preview release (2021-10-15, rev30315)
-ARG SLICER_DOWNLOAD_URL=https://download.slicer.org/bitstream/61690039342a877cb3d01245
-
-# Latest working Slicer-4.11 version (SlicerJupyter extension is not available for the more recent Slicer-4.11.20210226 version)
-#ARG SLICER_DOWNLOAD_URL=https://download.slicer.org/bitstream/60add70fae4540bf6a89bfb4
+# Current preview release (Slicer-4.13 2022-02-15, rev30607)
+ARG SLICER_DOWNLOAD_URL=https://download.slicer.org/bitstream/620b36f0e8408647b35affbe
 
 # Use local package:
 #ADD $SLICER_ARCHIVE.tar.gz ${HOME}/
@@ -130,7 +127,7 @@ RUN /home/sliceruser/Slicer/bin/PythonSlicer -m pip install --upgrade pip
 
 # Now install websockify and jupyter-server-proxy (fixed at tag v1.6.0)
 RUN /home/sliceruser/Slicer/bin/PythonSlicer -m pip install --upgrade websockify && \
-    cp /usr/lib/rebind.so /home/sliceruser/Slicer/lib/Python/lib/python3.6/site-packages/websockify/ && \
+    cp /usr/lib/rebind.so /home/sliceruser/Slicer/lib/Python/lib/python3.9/site-packages/websockify/ && \
     /home/sliceruser/Slicer/bin/PythonSlicer -m pip install notebook jupyterhub jupyterlab && \
     /home/sliceruser/Slicer/bin/PythonSlicer -m pip install -e \
         git+https://github.com/lassoan/jupyter-desktop-server#egg=jupyter-desktop-server \

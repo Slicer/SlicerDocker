@@ -15,6 +15,12 @@ fi
 
 slicer_executable=$1
 
+# Need to set UTF-8 locale.
+# Otherwise the default locale would be "ANSI_X3.4-1968" and pip_install
+# would fail in slicer.util.logProcessOutput with the error:
+#  "UnicodeDecodeError: 'ascii' codec can't decode byte 0xe2 in position 5: ordinal not in range(128)"
+export LANG="C.UTF-8"
+
 ################################################################################
 # Set up headless environment
 source $script_dir/start-xorg.sh
