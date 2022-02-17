@@ -19,6 +19,9 @@ RUN \
   cmake \
     -G Ninja \
     -DCMAKE_BUILD_TYPE:STRING=Release \
+    -DCMAKE_JOB_POOLS:STRING="compile=16;link=8" \
+    -DCMAKE_JOB_POOL_COMPILE:STRING=compile \
+    -DCMAKE_JOB_POOL_LINK:STRING=link \
     -DQt5_DIR:PATH=${Qt5_DIR} \
     -DSlicer_BUILD_ITKPython:BOOL=OFF \
     -DSlicer_INSTALL_ITKPython:BOOL=OFF \
