@@ -53,6 +53,10 @@ else:
     url = f"{em.serverUrl().toString()}/api/v1/item/{itemId}/download"
     extensionPackageFilename = f"{slicer.app.temporaryPath}/{itemId}"
     slicer.util.downloadFile(url, extensionPackageFilename)
+    # Prevent showing popups for installing dependencies
+    # (this is not needed right now for SlicerJupyter, but we still add this line here
+    # because this docker image may be used by other projects as a starting point)
+    em.interactive = False
 em.installExtension(extensionPackageFilename)
 '
 
