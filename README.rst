@@ -25,10 +25,10 @@ Usage of slicer-notebook image
 
 Linux or MacOS::
 
-    docker run -p 8888:8888 -p49053:49053 -v "$PWD":/home/sliceruser/work --rm -ti lassoan/slicer-notebook:2021-10-15-b3077c2
+    docker run -p 8888:8888 -p49053:49053 -v "$PWD":/home/sliceruser/work --rm -ti lassoan/slicer-notebook:latest
 
 Windows::
 
-    docker run -p 8888:8888 -p49053:49053 -v "%USERPROFILE%":/home/sliceruser/work --rm -ti lassoan/slicer-notebook:2021-10-15-b3077c2
+    docker run -p 8888:8888 -p49053:49053 -v "%USERPROFILE%":/home/sliceruser/work --rm -ti lassoan/slicer-notebook:latest
 
 2. Open the link shown at the end of the command-line output (``http://127.0.0.1:8888/?token=...``) in a web browser.
