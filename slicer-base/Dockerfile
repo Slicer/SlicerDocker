@@ -8,7 +8,7 @@ RUN \
   # Download sources
   #
   cd /usr/src && \
-  git clone git://github.com/Slicer/Slicer && \
+  git clone https://github.com/Slicer/Slicer && \
   cd Slicer && \
   git reset --hard ${SLICER_VERSION} && \
   #
