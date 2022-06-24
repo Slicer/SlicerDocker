@@ -6,7 +6,7 @@ FROM thewtex/opengl:centos
 
 # Build the same version of CMake that is in thewtex/centos-build
 WORKDIR /usr/src
-RUN git clone git://cmake.org/cmake.git CMake && \
+RUN git clone https://github.com/Kitware/CMake.git CMake && \
   cd CMake && \
   git checkout v3.4.1 && \
   mkdir /usr/src/CMake-build && \
