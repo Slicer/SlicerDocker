@@ -17,7 +17,7 @@
 #  Executing git add /home/jcfr/Projects/SlicerDocker/slicer-base/Dockerfile
 #
 #  Executing git commit -m ENH: slicer-base: Update to Slicer r25199 from 2016-06-19
-#  [master 397eeab] ENH: slicer-base: Update to Slicer r25199 from 2016-06-19
+#  [main 397eeab] ENH: slicer-base: Update to Slicer r25199 from 2016-06-19
 #   1 file changed, 2 insertions(+), 2 deletions(-)
 #
 

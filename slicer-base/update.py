@@ -23,8 +23,8 @@ def update_dockerfile(dockerfile, git_sha, git_sha_date):
                 if current_git_sha == git_sha:
                     return False
                 line = "ENV SLICER_VERSION %s\n" % git_sha
-            if '# Slicer master ' in line:
-                line = "# Slicer master %s\n" % git_sha_date
+            if '# Slicer main ' in line:
+                line = "# Slicer main %s\n" % git_sha_date
             lines.append(line)
     with open(dockerfile, 'w') as f:
         f.writelines(lines)

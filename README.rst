@@ -14,7 +14,7 @@ slicer/slicer-notebook
   :target: https://hub.docker.com/r/slicer/slicer-base
 
 slicer/slicer-base
-  |slicer-base-images| The image used to build Slicer on CircleCI each time a Pull Request is submitted. For more details, see `.circleci/config.yml <https://github.com/Slicer/Slicer/blob/master/.circleci/config.yml>`_ 
+  |slicer-base-images| The image used to build Slicer on CircleCI each time a Pull Request is submitted. For more details, see `GitHub Actions workflow <https://github.com/Slicer/Slicer/tree/main/.github>`_
 
 Information about unmaintained images are available `here <unmaintained-images.rst>`_.
 

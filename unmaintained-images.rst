@@ -1,7 +1,8 @@
 Unmaintained Images
 -------------------
 
-In the process of improving the Slicer infrastructure, these images are not updated anymore. Only the ``slicer/slicer-base`` image is used for `continuous integration with CircleCI <https://github.com/Slicer/Slicer/blob/master/.circleci/config.yml>`_.
+In the process of improving the Slicer infrastructure, these images are not updated anymore. Only the ``slicer/slicer-base`` image is used for continuous integration with `GitHub Actions workflow <https://github.com/Slicer/Slicer/tree/main/.github>`_.
+
 
 .. |slicer-dependencies-images| image:: https://img.shields.io/docker/image-size/slicer/slicer-dependencies/latest
   :target: https://hub.docker.com/r/slicer/slicer-dependencies
