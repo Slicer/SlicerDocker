@@ -45,11 +45,11 @@ Update
 
 To update the Slicer revision, first download Slicer sources::
 
-  git clone git://github.com/Slicer/Slicer
+  git clone https://github.com/Slicer/Slicer
 
 Then download SlicerDocker sources and check out a local branch for the update::
 
-  git clone git://github.com/Slicer/SlicerDocker
+  git clone git@github.com:Slicer/SlicerDocker
   cd SlicerDocker
   git checkout -b update-$(date +%F)
 
