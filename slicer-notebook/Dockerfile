@@ -26,6 +26,7 @@ RUN echo 'APT::Install-Recommends "0" ; APT::Install-Suggests "0" ;' >> /etc/apt
 #   - basic  tools
 #   - slicer dependencies
 #   - awesome window manager
+#   - procps to get ps (needed for DICOM listener)
 #   - install ca-certs to prevent - fatal: unable to access 'https://github.com/novnc/websockify/': server certificate verification failed. CAfile: none CRLfile: none
 RUN apt-get update -q -y && \
     apt-get install -q -y \
@@ -44,6 +45,7 @@ RUN apt-get update -q -y && \
         libglu1 \
         x11vnc \
         awesome \
+        procps \
         jq \
         git && \
     apt-get install -q -y --reinstall ca-certificates
