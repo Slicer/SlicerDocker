@@ -66,8 +66,8 @@ WORKDIR ${HOME}
 ################################################################################
 # Download and unpack Slicer
 
-# Current preview release (Slicer-4.13 2022-02-15, rev30607)
-ARG SLICER_DOWNLOAD_URL=https://download.slicer.org/bitstream/620b36f0e8408647b35affbe
+# Current preview release (Slicer-5.0.3, 2022-07-08, rev30893)
+ARG SLICER_DOWNLOAD_URL=https://download.slicer.org/bitstream/62cc52d2aa08d161a31c1af0
 
 # Use local package:
 #ADD $SLICER_ARCHIVE.tar.gz ${HOME}/
