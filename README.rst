@@ -23,12 +23,14 @@ Usage of slicer-notebook image
 
 1. Start a Jupyter server by running this command:
 
+Note: `slicer/slicer-notebook` images on dockerhub are outdated, therefore the examples below uses latest images from `lassoan/slicer-notebook`.
+
 Linux or MacOS::
 
-    docker run -p 8888:8888 -p 49053:49053 -v "$PWD":/home/sliceruser/work --rm -ti slicer/slicer-notebook:latest
+    docker run -p 8888:8888 -p 49053:49053 -v "$PWD":/home/sliceruser/work --rm -ti lassoan/slicer-notebook:latest
 
 Windows::
 
-    docker run -p 8888:8888 -p 49053:49053 -v "%USERPROFILE%":/home/sliceruser/work --rm -ti slicer/slicer-notebook:latest
+    docker run -p 8888:8888 -p 49053:49053 -v "%USERPROFILE%":/home/sliceruser/work --rm -ti lassoan/slicer-notebook:latest
 
 2. Open the link shown at the end of the command-line output (``http://127.0.0.1:8888/?token=...``) in a web browser.
