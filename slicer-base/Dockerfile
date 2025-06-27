@@ -82,7 +82,10 @@ RUN \
     bzip2 bzip2-build \
     curl curl-build \
     LibArchive LibArchive-build \
+    LibFFI LibFFI-build \
     PCRE PCRE-build \
+    RapidJSON RapidJSON-build \
+    sqlite sqlite-build \
     Swig Swig-build \
     zlib zlib-build \
   && \
