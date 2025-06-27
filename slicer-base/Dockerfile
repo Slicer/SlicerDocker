@@ -74,7 +74,7 @@ RUN \
   find . -maxdepth 1 -type d  -name python-install -o -type d -name "python-*" -exec rm -rf "{}" \; && \
   rm -rf NUMPY && \
   rm -rf SimpleITK* && \
-  rm -rf Python-2* && \
+  rm -rf Python-3* && \
   # Remove all *-prefix directories
   find . -maxdepth 1 -type d  -name Slicer-prefix -o -type d -name "*-prefix"  -exec rm -rf "{}" \; && \
   # Remove uneeded source and build tree
