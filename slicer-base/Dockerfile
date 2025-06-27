@@ -23,8 +23,6 @@ RUN \
     -DCMAKE_JOB_POOL_COMPILE:STRING=compile \
     -DCMAKE_JOB_POOL_LINK:STRING=link \
     -DQt5_DIR:PATH=${Qt5_DIR} \
-    -DSlicer_BUILD_ITKPython:BOOL=OFF \
-    -DSlicer_INSTALL_ITKPython:BOOL=OFF \
       /usr/src/Slicer && \
   #
   # Split the superbuild commands (what is executed by ninja) into building Slicer's
@@ -88,9 +86,6 @@ RUN \
     Swig Swig-build \
     zlib zlib-build \
   && \
-  # Remove ITKPython wrapping
-  mkdir -p ITK-build/Wrapping && find ITK-build/Wrapping -name '*.cpp' -delete -o -name '*.xml' -delete && \
-  rm -rf ITK-build/Wrapping/Generators/castxml* && \
   # Remove source files
   find CTK -name '*.cpp' -delete && \
   find DCMTK -name '*.cc' -delete && \
