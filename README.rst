@@ -34,3 +34,11 @@ Windows::
     docker run -p 8888:8888 -p 49053:49053 -v "%USERPROFILE%":/home/sliceruser/work --rm -ti lassoan/slicer-notebook:latest
 
 2. Open the link shown at the end of the command-line output (``http://127.0.0.1:8888/?token=...``) in a web browser.
+
+Docker files for 3D Slicer
+***************************
+
+`dockerfile <https://github.com/mauigna06/SlicerMorphCloud/tree/WithWebServer>`_ that:
+
+- Runs Slicer with GPU rendering and connects to it via vnc (using a client running in the web browser)
+- Communicate with Slicer via WebServer module via REST API
