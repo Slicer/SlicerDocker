@@ -2,14 +2,16 @@
 
 ## Images
 
-- slicer/slicer-notebook
-  [![slicer-notebook-images](https://img.shields.io/docker/image-size/slicer/slicer-notebook/latest)](https://hub.docker.com/r/slicer/slicer-notebook)
-  Ready-to-run Docker images containing Slicer and Jupyter. See [usage](#usage-of-slicer-notebook-image) information below.
+### slicer/slicer-notebook
 
-- slicer/slicer-base
-  [![slicer-base-images](https://img.shields.io/docker/image-size/slicer/slicer-base/latest)](https://hub.docker.com/r/slicer/slicer-base)
-  The image used to build Slicer each time a Pull Request is submitted.
-  For more details, see [GitHub Actions workflow](https://github.com/Slicer/Slicer/tree/main/.github)
+[![slicer-notebook-images](https://img.shields.io/docker/image-size/slicer/slicer-notebook/latest)](https://hub.docker.com/r/slicer/slicer-notebook)
+Ready-to-run Docker images containing Slicer and Jupyter. See [usage](#usage-of-slicer-notebook-image) information below.
+
+### slicer/slicer-base
+
+[![slicer-base-images](https://img.shields.io/docker/image-size/slicer/slicer-base/latest)](https://hub.docker.com/r/slicer/slicer-base)
+The image used to build Slicer each time a Pull Request is submitted.
+For more details, see [GitHub Actions workflow](https://github.com/Slicer/Slicer/tree/main/.github)
 
 ### Unmaintained Images
 

@@ -1,30 +1,36 @@
-# Unmaintained Images
+# Docker images for 3D Slicer
+
+## Unmaintained Images
 
 In the process of improving the Slicer infrastructure, these images are
 not updated anymore. Only the `slicer/slicer-base` image is used for
-continuous integration with [GitHub Actionsworkflow](https://github.com/Slicer/Slicer/tree/main/.github).
+continuous integration with [GitHub Actions workflow](https://github.com/Slicer/Slicer/tree/main/.github).
 
-  - slicer/slicer-dependencies
-    [![slicer-dependencies-images](https://img.shields.io/docker/image-size/slicer/slicer-dependencies/latest)](https://hub.docker.com/r/slicer/slicer-dependencies)
-    An image containing all the dependencies to build Slicer itself:
-    ITK, VTK, CTK, Qt, etc.
+### slicer/slicer-dependencies
 
-  - slicer/slicer-build
-    [![slicer-build-images](https://img.shields.io/docker/image-size/slicer/slicer-build/latest)](https://hub.docker.com/r/slicer/slicer-build)
-    An image containing a Slicer build tree along with all the
-    dependencies to build Slicer.
+[![slicer-dependencies-images](https://img.shields.io/docker/image-size/slicer/slicer-dependencies/latest)](https://hub.docker.com/r/slicer/slicer-dependencies)
+An image containing all the dependencies to build Slicer itself:
+ITK, VTK, CTK, Qt, etc.
 
-  - slicer/slicer-test
-    [![slicer-test-images](https://img.shields.io/docker/image-size/slicer/slicer-test/latest)](https://hub.docker.com/r/slicer/slicer-test)
-    An image containing a Slicer build and test tree along with all the
-    dependencies to build Slicer.
+### slicer/slicer-build
 
-  - slicer/slicer-test:opengl
-    [![slicer-test-opengl-images](https://img.shields.io/docker/image-size/slicer/slicer-test/opengl)](https://hub.docker.com/r/slicer/slicer-test)
-    An image based on thewtex/opengl:centos which contains configuration
-    files to run Slicer's tests
+[![slicer-build-images](https://img.shields.io/docker/image-size/slicer/slicer-build/latest)](https://hub.docker.com/r/slicer/slicer-build)
+An image containing a Slicer build tree along with all the
+dependencies to build Slicer.
 
-# Usage
+### slicer/slicer-test
+
+[![slicer-test-images](https://img.shields.io/docker/image-size/slicer/slicer-test/latest)](https://hub.docker.com/r/slicer/slicer-test)
+An image containing a Slicer build and test tree along with all the
+dependencies to build Slicer.
+
+### slicer/slicer-test:opengl
+
+[![slicer-test-opengl-images](https://img.shields.io/docker/image-size/slicer/slicer-test/opengl)](https://hub.docker.com/r/slicer/slicer-test)
+An image based on thewtex/opengl:centos which contains configuration
+files to run Slicer's tests
+
+## Usage
 
 To build and package a local Slicer source tree at `~/src/Slicer` 
 against pre-built dependencies:
@@ -36,7 +42,7 @@ docker cp slicer:$(docker cp slicer:/usr/src/Slicer-build/Slicer-build/PACKAGE_F
 docker rm slicer
 ```
 
-# Update
+## Update
 
 To update the Slicer revision, first download Slicer sources:
 
