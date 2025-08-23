@@ -1,4 +1,4 @@
-FROM slicer/buildenv-qt5-centos7:latest
+FROM slicer/buildenv-qt5-almalinux8-gcc14:latest
 
 # Slicer main 2025-06-27
 ENV SLICER_VERSION 0b4ad3b7b7
