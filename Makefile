@@ -22,6 +22,11 @@ ORG = slicer
 # Images
 ALL_IMAGES = slicer-base slicer-build slicer-dependencies slicer-notebook slicer-test
 
+# Generated Dockerfiles.
+GEN_IMAGES := $(ALL_IMAGES)
+
+GEN_IMAGE_DOCKERFILES = $(addsuffix /Dockerfile,$(GEN_IMAGES))
+
 #
 # Name of images: The name is expected to have the following form: imagename[_imagetag]
 #                 where:
@@ -54,9 +59,22 @@ define build
 endef
 
 
-# Rules
+#
+# build-all: This target builds all IMAGES (because it is the first one, it is built by default)
+#
 build-all: $(ALL_IMAGES)
 
+#
+# Dockerfile configuration implicit rules
+#
+$(GEN_IMAGE_DOCKERFILES): %Dockerfile: %Dockerfile.in $(DOCKER_COMPOSITE_PATH)
+	cp $< $@
+
+.PHONY: $(GEN_IMAGE_DOCKERFILES)
+
+#
+# build implicit rule
+#
 $(ALL_IMAGES): %: %/Dockerfile
 	$(eval TAG := latest)
 	$(call build,$@,$(TAG),$@)
@@ -81,3 +99,11 @@ slicer-test_opengl.push: slicer-test_opengl
 	$(BUILD_DOCKER) push $(ORG)/$(subst _,:,$@)
 
 .PHONY: build-all $(ALL_IMAGES) slicer-build slicer-dependencies slicer-test $(addsuffix .push,$(ALL_IMAGES)) push-all slicer-test_opengl
+
+#
+# clean rule
+#
+clean:
+	for d in $(GEN_IMAGE_DOCKERFILES) ; do rm -f $$d ; done
+
+.PHONY: clean

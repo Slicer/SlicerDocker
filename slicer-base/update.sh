@@ -12,9 +12,9 @@
 #  svn_revision: 25199
 #  svn_revision_date: 2016-06-19
 #
-#  File /home/jcfr/Projects/SlicerDocker/slicer-base/Dockerfile updated
+#  File /home/jcfr/Projects/SlicerDocker/slicer-base/Dockerfile,in updated
 #
-#  Executing git add /home/jcfr/Projects/SlicerDocker/slicer-base/Dockerfile
+#  Executing git add /home/jcfr/Projects/SlicerDocker/slicer-base/Dockerfile,in
 #
 #  Executing git commit -m ENH: slicer-base: Update to Slicer r25199 from 2016-06-19
 #  [main 397eeab] ENH: slicer-base: Update to Slicer r25199 from 2016-06-19

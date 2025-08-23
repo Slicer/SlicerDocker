@@ -36,19 +36,22 @@ def _run(cmd):
     subprocess.check_call(cmd)
 
 if __name__ == '__main__':
+
+    DOCKERFILE = "Dockerfile.in"
+
     parser = argparse.ArgumentParser(
-        description='Update "slicer-base/Dockerfile" and git commit.')
+        description=f'Update "slicer-base/{DOCKERFILE}" and git commit.')
     parser.add_argument("git_sha")
     parser.add_argument("git_sha_date")
     args = parser.parse_args()
 
     slicer_build_base_dir = os.path.dirname(__file__)
-    dockerfile = os.path.join(slicer_build_base_dir, "Dockerfile")
+    dockerfile = os.path.join(slicer_build_base_dir, DOCKERFILE)
 
     if update_dockerfile(dockerfile, args.git_sha, args.git_sha_date):
       _run(['git', 'add', dockerfile])
       message = 'ENH: slicer-base: Update to Slicer/Slicer@%s from %s' % (args.git_sha, args.git_sha_date)
       _run(['git', 'commit', '-m', message])
     else:
-      print('"slicer-base/Dockerfile" already updated')
+      print(f'"slicer-base/{DOCKERFILE}" already updated')
 
