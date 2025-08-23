@@ -104,9 +104,11 @@ WORKDIR /usr/src/Slicer-build
 # Build-time metadata as defined at http://label-schema.org
 # BUILD_DATE is omitted to avoid unneeded rebuild
 ARG IMAGE
+ARG VERSION
 ARG VCS_REF
 ARG VCS_URL
 LABEL org.label-schema.name=$IMAGE \
+      org.label-schema.version=$VERSION \
       org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.vcs-url=$VCS_URL \
       org.label-schema.schema-version="1.0"

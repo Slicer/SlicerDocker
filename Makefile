@@ -49,7 +49,8 @@ define build
 	$(eval BUILD_DATE := $(shell date -u +"%Y-%m-%dT%H:%M:%SZ"))
 	$(eval BUILD_ARG_BUILD_DATE := $(shell if [ $(REPO) != "slicer-base" ]; then echo "--build-arg BUILD_DATE=$(BUILD_DATE)"; fi))
 	$(BUILD_DOCKER) $(BUILD_CMD) --pull -t $(ORG)/$(REPO):$(TAG) \
-		--build-arg IMAGE=$(ORG)/$(REPO):$(TAG)                  \
+		--build-arg IMAGE=$(ORG)/$(REPO)                         \
+		--build-arg VERSION=$(TAG)                               \
 		--build-arg VCS_REF=`git rev-parse --short HEAD`         \
 		--build-arg VCS_URL=`git config --get remote.origin.url` \
 		$(BUILD_ARG_BUILD_DATE)                                  \
