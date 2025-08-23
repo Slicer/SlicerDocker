@@ -3,8 +3,11 @@
 # Parameters
 #
 
-# Name of the docker executable
-DOCKER = docker
+# Name of the docker-equivalent executable for building images.
+# OCI: open container interface.
+# Common values: docker, podman
+DOCKER := $(or $(OCI_EXE), docker)
+BUILD_DOCKER := $(or $(BUILD_DOCKER), $(DOCKER))
 
 # Docker organization to pull the images from
 ORG = slicer
@@ -30,17 +33,17 @@ define build
 	$(eval REPO := $(1))
 	$(eval TAG := $(2))
 	$(eval DIR := $(3))
-	$(eval IMAGEID := $(shell $(DOCKER) images -q $(ORG)/$(REPO):$(TAG)))
+	$(eval IMAGEID := $(shell $(BUILD_DOCKER) images -q $(ORG)/$(REPO):$(TAG)))
 	$(eval BUILD_DATE := $(shell date -u +"%Y-%m-%dT%H:%M:%SZ"))
 	$(eval BUILD_ARG_BUILD_DATE := $(shell if [ $(REPO) != "slicer-base" ]; then echo "--build-arg BUILD_DATE=$(BUILD_DATE)"; fi))
-	$(DOCKER) build --pull -t $(ORG)/$(REPO):$(TAG)            \
+	$(BUILD_DOCKER) build --pull -t $(ORG)/$(REPO):$(TAG)      \
 		--build-arg IMAGE=$(ORG)/$(REPO):$(TAG)                  \
 		--build-arg VCS_REF=`git rev-parse --short HEAD`         \
 		--build-arg VCS_URL=`git config --get remote.origin.url` \
 		$(BUILD_ARG_BUILD_DATE)                                  \
 		$(DIR);
-	CURRENT_IMAGEID=$$($(DOCKER) images -q $(ORG)/$(REPO):$(TAG)) &&  \
-	if [ -n "$(IMAGEID)" ] && [ "$(IMAGEID)" != "$$CURRENT_IMAGEID" ]; then $(DOCKER) rmi "$(IMAGEID)" || true; fi
+	CURRENT_IMAGEID=$$($(BUILD_DOCKER) images -q $(ORG)/$(REPO):$(TAG)) &&  \
+	if [ -n "$(IMAGEID)" ] && [ "$(IMAGEID)" != "$$CURRENT_IMAGEID" ]; then $(BUILD_DOCKER) rmi "$(IMAGEID)" || true; fi
 endef
 
 
@@ -59,7 +62,7 @@ slicer-test: slicer-base
 $(addsuffix .push,$(ALL_IMAGES)):
 	$(eval REPO := $(basename $@))
 	$(eval TAG := latest)
-	$(DOCKER) push $(ORG)/$(REPO):$(TAG)
+	$(BUILD_DOCKER) push $(ORG)/$(REPO):$(TAG)
 
 push-all: $(addsuffix .push,$(ALL_IMAGES))
 
@@ -68,6 +71,6 @@ slicer-test_opengl: slicer-test/opengl/Dockerfile
 	$(call build,slicer-test,$(TAG),slicer-test/opengl)
 
 slicer-test_opengl.push: slicer-test_opengl
-	$(DOCKER) push $(ORG)/$(subst _,:,$@)
+	$(BUILD_DOCKER) push $(ORG)/$(subst _,:,$@)
 
 .PHONY: build-all $(ALL_IMAGES) slicer-build slicer-dependencies slicer-test $(addsuffix .push,$(ALL_IMAGES)) push-all slicer-test_opengl
