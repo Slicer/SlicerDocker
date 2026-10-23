@@ -2,8 +2,8 @@ FROM slicer/buildenv-qt5-almalinux8-gcc14:latest
 
 LABEL maintainer="3D Slicer Community <slicer-devel@bwh.harvard.edu>"
 
-# Slicer main 2026-10-21
-ENV SLICER_VERSION 732bca6aa8
+# Slicer main 2026-10-22
+ENV SLICER_VERSION cdd346f0a3
 
 RUN \
   #
